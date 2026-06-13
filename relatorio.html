@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br" xml:lang="pt-br"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Leonardo Carletto">
+
+<title>Como os biocombustiveis podem ajuda a diminuir a poluicao Veicular</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="relatorio_files/libs/clipboard/clipboard.min.js"></script>
+<script src="relatorio_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="relatorio_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="relatorio_files/libs/quarto-html/popper.min.js"></script>
+<script src="relatorio_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="relatorio_files/libs/quarto-html/anchor.min.js"></script>
+<link href="relatorio_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="relatorio_files/libs/quarto-html/quarto-syntax-highlighting-ecb712e4b4a27fb632a076b750cb4510.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="relatorio_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="relatorio_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="relatorio_files/libs/bootstrap/bootstrap-e4467e60a4803ada5cd8a6ba46baa82a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Índice</h2>
+   
+  <ul>
+  <li><a href="#automoveis-a-combustão-e-suas-consequencias" id="toc-automoveis-a-combustão-e-suas-consequencias" class="nav-link active" data-scroll-target="#automoveis-a-combustão-e-suas-consequencias">Automoveis a combustão e suas consequencias</a>
+  <ul class="collapse">
+  <li><a href="#referencias" id="toc-referencias" class="nav-link" data-scroll-target="#referencias">Referencias</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Como os biocombustiveis podem ajuda a diminuir a poluicao Veicular</h1>
+<p class="subtitle lead">EDA - Inmetro PBEV2026</p>
+  <div class="quarto-categories">
+    <div class="quarto-category">PBEV_EDA</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Autor</div>
+    <div class="quarto-title-meta-contents">
+             <p>Leonardo Carletto </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Data de Publicação</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">12 de junho de 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="automoveis-a-combustão-e-suas-consequencias" class="level1">
+<h1>Automoveis a combustão e suas consequencias</h1>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/marcador.jpg" class="banner img-fluid figure-img"></p>
+<figcaption>Técnicos do IPEM-RJ fiscalizando bombas de combustível. Fonte: IPEM-RJ (CC BY 2.0 BR).</figcaption>
+</figure>
+</div>
+<blockquote class="blockquote">
+<p>O foco da análise exploratória (EDA) na base de dados do INMETRO, o PBEV 2026 - Programa Brasileiro de Etiquetagem Veicular, foi analisar como o uso do biocombustível etanol pode impactar na diminuicao da poluição em comparação aos combustíveis fósseis óleo diesel e gasolina, e quantificar quais sao os impactos anuais da emissao da poluentes desses combustiveis pela categoria do veiculo e tambem medir a quantidade de combustivel gasta por km rodado pelas categorias por combustivel.</p>
+</blockquote>
+<p>Na sociedade moderna, a emissão de poluentes e derivados de combustíveis fósseis advinda de veículos a combustão é, sem dúvida, um dos desafios da modernidade. As consequências do uso em larga escala dessas fontes de energia causam impactos significativos e preocupantes na nossa sociedade, principalmente nos grandes centros urbanos. Os principais impactos são a poluição ambiental, as chuvas ácidas, a poluição do ar e a emissão de gases de efeito estufa, além dos problemas causados por erros humanos, como o vazamento de óleo e petróleo em refinarias e navios de extração, que, como consequência, contaminam os mares e oceanos, tornando as áreas afetadas em lugares inóspitos à vida. Esses problemas são bem evidenciados na segunda edição do relatório “Do Berço ao Túmulo: o impacto dos combustíveis fósseis na saúde”, produzido pela Global Climate &amp; Health Alliance, uma coalizão internacional que busca combater as mudanças climáticas e atingir melhorias na área de saúde pública.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/oleo.jpg" class="banner img-fluid figure-img"></p>
+<figcaption>Felipe Brasil / Fotos Públicas (2019)</figcaption>
+</figure>
+</div>
+<p>No Brasil, o Proconve (Programa de Controle da Poluição do Ar por Veículos Automotores), criado em 1986 com o objetivo de diminuir a poluição veicular, completou recentemente 40 anos, e seus impactos são extremamente positivos. O nível de emissão de monóxido de carbono por quilômetro rodado chegava a 54 g/km por veículo; considerando os 13 milhões de veículos da época, os números chegavam a aproximadamente 702 kg do poluente para um único veículo em um ano, e cerca de 9.126 mil toneladas para o total da frota anual. Atualmente, o nível de emissão está em cerca de 0,4 g/km por quilômetro rodado, o que representa uma redução superior a 98% em relação ao início da implementação do programa para um único veículo. Considerando a frota atual de 129 milhões de veículos, um veículo polui cerca de 5,2 kg em um ano, e toda a frota cerca de 670,8 mil toneladas — uma redução de pelo menos 92% em comparação aos valores anteriores à implementação da lei, segundo dados do Ibama. Para que fossem possíveis essas reduções, os carros foram se modificando com o passar dos anos; uma mudança dessa magnitude, evidentemente, não veio pela boa vontade das empresas. Uma das imposições foi a implementação dos catalisadores. A principal tarefa do catalisador é transformar três dos principais poluentes liberados pelo escapamento em substâncias menos prejudiciais ao planeta. No que diz respeito ao que estamos analisando, o monóxido de carbono é um gás tóxico, e o catalisador automotivo o converte em dióxido de carbono (CO2), um gás que, embora seja poluente, não é tóxico da mesma forma que o monóxido de carbono. Isso, por si só, já significa uma melhora na qualidade do ar respirado nas cidades: a transformação de CO em CO2, após a reação com o oxigênio, antecipa o que aconteceria inevitavelmente, proporcionando uma melhoria qualitativa do ar respirado nas cidades. Outras soluções foram implementadas com o passar dos anos, como o uso da injeção direta de combustível, que causa a redução do consumo de combustível e da emissão de CO2, entre outros avanços, como a melhoria da qualidade do combustível e a adesão ao etanol — a adição de etanol à gasolina e de biodiesel ao diesel. Essas mudanças representam melhorias incomparáveis em relação ao que estava presente antes do Proconve.</p>
+<blockquote class="blockquote">
+<p>As variáveis selecionadas para um estudo aprofundado foram as seguintes: Categoria, emissao de co2 de etanol, emissao de co2 de gasolina/diesel, consumo de combustivel combinado de cidade e estrada do etanol e de gasolina e disel.</p>
+</blockquote>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="relatorio_files/figure-html/Plots%20sobre%20emissao%20de%20co2%20por%20categoria-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="relatorio_files/figure-html/Plots%20sobre%20emissao%20de%20co2%20por%20categoria-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="relatorio_files/figure-html/Comparativo%20entre%20o%20consumo%20por%20categoria%20em%20km/l-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="relatorio_files/figure-html/Comparativo%20entre%20o%20consumo%20por%20categoria%20em%20km/l-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Nesse cenário de necessidade de renovação energética limpa no Brasil, o etanol — um biocombustível de matéria-prima vegetal, produzido por meio da fermentação do amido ou de outros açúcares de origem vegetal — destaca-se por ser um combustível sustentável, renovável e pouco poluente em comparação com os combustíveis fósseis, unindo a necessidade por energias renováveis e menos poluentes à capacidade de produção do etanol brasileiro. Vale lembrar que, diferentemente dos combustíveis fósseis, que têm uma finitude, o etanol é renovável e também uma fonte de energia mais limpa, pois sua produção emite até 80% menos gases de efeito estufa (GEE) — como dióxido de carbono (CO2), gás metano (CH4) e óxido nitroso (N2O) — quando comparado à gasolina e ao óleo diesel.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="tkmfgcfgtj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#tkmfgcfgtj table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#tkmfgcfgtj thead, #tkmfgcfgtj tbody, #tkmfgcfgtj tfoot, #tkmfgcfgtj tr, #tkmfgcfgtj td, #tkmfgcfgtj th {
+  border-style: none;
+}
+
+#tkmfgcfgtj p {
+  margin: 0;
+  padding: 0;
+}
+
+#tkmfgcfgtj .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#tkmfgcfgtj .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#tkmfgcfgtj .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#tkmfgcfgtj .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#tkmfgcfgtj .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#tkmfgcfgtj .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#tkmfgcfgtj .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#tkmfgcfgtj .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#tkmfgcfgtj .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#tkmfgcfgtj .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#tkmfgcfgtj .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#tkmfgcfgtj .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#tkmfgcfgtj .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#tkmfgcfgtj .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#tkmfgcfgtj .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#tkmfgcfgtj .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#tkmfgcfgtj .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#tkmfgcfgtj .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#tkmfgcfgtj .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tkmfgcfgtj .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#tkmfgcfgtj .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#tkmfgcfgtj .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#tkmfgcfgtj .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tkmfgcfgtj .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#tkmfgcfgtj .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#tkmfgcfgtj .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#tkmfgcfgtj .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tkmfgcfgtj .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#tkmfgcfgtj .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#tkmfgcfgtj .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#tkmfgcfgtj .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#tkmfgcfgtj .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#tkmfgcfgtj .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tkmfgcfgtj .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#tkmfgcfgtj .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tkmfgcfgtj .gt_left {
+  text-align: left;
+}
+
+#tkmfgcfgtj .gt_center {
+  text-align: center;
+}
+
+#tkmfgcfgtj .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#tkmfgcfgtj .gt_font_normal {
+  font-weight: normal;
+}
+
+#tkmfgcfgtj .gt_font_bold {
+  font-weight: bold;
+}
+
+#tkmfgcfgtj .gt_font_italic {
+  font-style: italic;
+}
+
+#tkmfgcfgtj .gt_super {
+  font-size: 65%;
+}
+
+#tkmfgcfgtj .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#tkmfgcfgtj .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#tkmfgcfgtj .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#tkmfgcfgtj .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#tkmfgcfgtj .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#tkmfgcfgtj .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#tkmfgcfgtj .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#tkmfgcfgtj .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#tkmfgcfgtj div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_heading header">
+<td colspan="4" class="gt_heading gt_title gt_font_normal">Emissão de CO2 por categoria veicular</td>
+</tr>
+<tr class="gt_heading even">
+<td colspan="4" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">Emissões de CO2 em kg por ano para 13000KM</td>
+</tr>
+<tr class="gt_col_headings header">
+<th id="categoria" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">categoria</th>
+<th id="Etanol" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Etanol</th>
+<th id="Gasolina_ou_Diesel" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Gasolina_ou_Diesel</th>
+<th id="CO2_Evitado_Usando_Etanol" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">CO2_Evitado_Usando_Etanol</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_center" headers="categoria">Comercial</td>
+<td class="gt_row gt_right" headers="Etanol" style="background-color: #FC8F6F; color: #000000">1.633,7</td>
+<td class="gt_row gt_right" headers="Gasolina_ou_Diesel" style="background-color: #C4161B; color: #FFFFFF">2.404,0</td>
+<td class="gt_row gt_right" headers="CO2_Evitado_Usando_Etanol" style="background-color: #31A354; color: #FFFFFF">770,3</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_center" headers="categoria">Compacto</td>
+<td class="gt_row gt_right" headers="Etanol" style="background-color: #FEDFD0; color: #000000">1.430,0</td>
+<td class="gt_row gt_right" headers="Gasolina_ou_Diesel" style="background-color: #FDC7B1; color: #000000">1.584,6</td>
+<td class="gt_row gt_right" headers="CO2_Evitado_Usando_Etanol" style="background-color: #D1EDCB; color: #000000">154,6</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_center" headers="categoria">Esportivo</td>
+<td class="gt_row gt_right" headers="Etanol" style="background-color: #808080; color: #FFFFFF">NaN</td>
+<td class="gt_row gt_right" headers="Gasolina_ou_Diesel" style="background-color: #67000D; color: #FFFFFF">2.731,6</td>
+<td class="gt_row gt_right" headers="CO2_Evitado_Usando_Etanol" style="background-color: #808080; color: #FFFFFF">NaN</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_center" headers="categoria">Extra Grande</td>
+<td class="gt_row gt_right" headers="Etanol" style="background-color: #F86043; color: #FFFFFF">1.751,8</td>
+<td class="gt_row gt_right" headers="Gasolina_ou_Diesel" style="background-color: #FC7A59; color: #FFFFFF">1.939,1</td>
+<td class="gt_row gt_right" headers="CO2_Evitado_Usando_Etanol" style="background-color: #CBEAC4; color: #000000">187,4</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_center" headers="categoria">Fora de Estrada Compacto</td>
+<td class="gt_row gt_right" headers="Etanol" style="background-color: #74020F; color: #FFFFFF">2.106,0</td>
+<td class="gt_row gt_right" headers="Gasolina_ou_Diesel" style="background-color: #E53328; color: #FFFFFF">2.236,0</td>
+<td class="gt_row gt_right" headers="CO2_Evitado_Usando_Etanol" style="background-color: #D5EECF; color: #000000">130,0</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_center" headers="categoria">Fora de Estrada Grande</td>
+<td class="gt_row gt_right" headers="Etanol" style="background-color: #67000D; color: #FFFFFF">2.128,3</td>
+<td class="gt_row gt_right" headers="Gasolina_ou_Diesel" style="background-color: #800411; color: #FFFFFF">2.657,3</td>
+<td class="gt_row gt_right" headers="CO2_Evitado_Usando_Etanol" style="background-color: #7FC783; color: #000000">529,0</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_center" headers="categoria">Grande</td>
+<td class="gt_row gt_right" headers="Etanol" style="background-color: #FED2BF; color: #000000">1.465,3</td>
+<td class="gt_row gt_right" headers="Gasolina_ou_Diesel" style="background-color: #FCB69B; color: #000000">1.668,1</td>
+<td class="gt_row gt_right" headers="CO2_Evitado_Usando_Etanol" style="background-color: #C8E9C2; color: #000000">202,8</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_center" headers="categoria">Médio</td>
+<td class="gt_row gt_right" headers="Etanol" style="background-color: #FECFBB; color: #000000">1.473,3</td>
+<td class="gt_row gt_right" headers="Gasolina_ou_Diesel" style="background-color: #FED0BD; color: #000000">1.540,5</td>
+<td class="gt_row gt_right" headers="CO2_Evitado_Usando_Etanol" style="background-color: #E1F3DC; color: #000000">67,2</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_center" headers="categoria">Minivan</td>
+<td class="gt_row gt_right" headers="Etanol" style="background-color: #F5533A; color: #FFFFFF">1.781,0</td>
+<td class="gt_row gt_right" headers="Gasolina_ou_Diesel" style="background-color: #FC8463; color: #000000">1.892,8</td>
+<td class="gt_row gt_right" headers="CO2_Evitado_Usando_Etanol" style="background-color: #D9F0D3; color: #000000">111,8</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_center" headers="categoria">Picape</td>
+<td class="gt_row gt_right" headers="Etanol" style="background-color: #AB1016; color: #FFFFFF">2.011,8</td>
+<td class="gt_row gt_right" headers="Gasolina_ou_Diesel" style="background-color: #A91016; color: #FFFFFF">2.528,9</td>
+<td class="gt_row gt_right" headers="CO2_Evitado_Usando_Etanol" style="background-color: #83C985; color: #000000">517,2</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_center" headers="categoria">Picape Compacta</td>
+<td class="gt_row gt_right" headers="Etanol" style="background-color: #FC9272; color: #000000">1.626,4</td>
+<td class="gt_row gt_right" headers="Gasolina_ou_Diesel" style="background-color: #FDB094; color: #000000">1.695,1</td>
+<td class="gt_row gt_right" headers="CO2_Evitado_Usando_Etanol" style="background-color: #E0F3DB; color: #000000">68,6</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_center" headers="categoria">Sub Compacto</td>
+<td class="gt_row gt_right" headers="Etanol" style="background-color: #FFF5F0; color: #000000">1.326,0</td>
+<td class="gt_row gt_right" headers="Gasolina_ou_Diesel" style="background-color: #FFE7DC; color: #000000">1.404,0</td>
+<td class="gt_row gt_right" headers="CO2_Evitado_Usando_Etanol" style="background-color: #DFF2D9; color: #000000">78,0</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_center" headers="categoria">Utilitário Esportivo Compacto</td>
+<td class="gt_row gt_right" headers="Etanol" style="background-color: #FDAF93; color: #000000">1.556,9</td>
+<td class="gt_row gt_right" headers="Gasolina_ou_Diesel" style="background-color: #FCBCA2; color: #000000">1.640,4</td>
+<td class="gt_row gt_right" headers="CO2_Evitado_Usando_Etanol" style="background-color: #DEF2D8; color: #000000">83,5</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_center" headers="categoria">Utilitário Esportivo Grande</td>
+<td class="gt_row gt_right" headers="Etanol" style="background-color: #F44F38; color: #FFFFFF">1.788,5</td>
+<td class="gt_row gt_right" headers="Gasolina_ou_Diesel" style="background-color: #FC9070; color: #000000">1.832,5</td>
+<td class="gt_row gt_right" headers="CO2_Evitado_Usando_Etanol" style="background-color: #E5F5E0; color: #000000">44,0</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_center" headers="categoria">Utilitário Esportivo Grande 4x4</td>
+<td class="gt_row gt_right" headers="Etanol" style="background-color: #808080; color: #FFFFFF">NaN</td>
+<td class="gt_row gt_right" headers="Gasolina_ou_Diesel" style="background-color: #FFF5F0; color: #000000">1.281,5</td>
+<td class="gt_row gt_right" headers="CO2_Evitado_Usando_Etanol" style="background-color: #808080; color: #FFFFFF">NaN</td>
+</tr>
+</tbody><tfoot>
+<tr class="gt_sourcenotes odd">
+<td colspan="4" class="gt_sourcenote">Foi Utilizado o total de 13.000km para um ano e esse valor foi multiplicado a emissao de co2 por categoria g/km dos combustiveis fosseis e do etanol, e o total foi divido por 1000 para virar ajustar os valores para kg/ano</td>
+</tr>
+<tr class="gt_sourcenotes even">
+<td colspan="4" class="gt_sourcenote">Banco de dados Inmetro PBE&lt;https://dados.inmetro.gov.br/programa_brasileiro_de_etiquetagem/VEICULOS_2026.csv&gt;</td>
+</tr>
+<tr class="gt_sourcenotes odd">
+<td colspan="4" class="gt_sourcenote">Nan = Nao há dados</td>
+</tr>
+</tfoot>
+
+</table>
+
+</div>
+</div>
+</div>
+<section id="referencias" class="level2">
+<h2 class="anchored" data-anchor-id="referencias">Referencias</h2>
+<p><a href="https://www.brasil247.com/brasil/impacto-ambiental-e-social-do-oleo-vazado-ainda-e-incalculavel-afirmam-entidades" class="uri">https://www.brasil247.com/brasil/impacto-ambiental-e-social-do-oleo-vazado-ainda-e-incalculavel-afirmam-entidades</a> <a href="https://revistapesquisa.fapesp.br/mais-extenso-derramamento-de-petroleo-ocorrido-no-pais-causa-forte-impacto-na-biodiversidade-marinha/" class="uri">https://revistapesquisa.fapesp.br/mais-extenso-derramamento-de-petroleo-ocorrido-no-pais-causa-forte-impacto-na-biodiversidade-marinha/</a> <a href="https://www.cetesb.sp.gov.br/cetesb/qualidade_ambiental/emissao_veicular" class="uri">https://www.cetesb.sp.gov.br/cetesb/qualidade_ambiental/emissao_veicular</a><br>
+<a href="https://www.cetesb.sp.gov.br/cetesb/qualidade_ambiental/emissao_veicular/proconve" class="uri">https://www.cetesb.sp.gov.br/cetesb/qualidade_ambiental/emissao_veicular/proconve</a><br>
+<a href="https://www.raizen.com.br/blog/etanol" class="uri">https://www.raizen.com.br/blog/etanol</a><br>
+<a href="https://www.epe.gov.br/sites-pt/publicacoes-dados-abertos/publicacoes/PublicacoesArquivos/publicacao-250/topico-304/EPE%20-%202%C2%BA%20Biocombust%C3%ADveis%20x%20MDL%5B1%5D.pdf" class="uri">https://www.epe.gov.br/sites-pt/publicacoes-dados-abertos/publicacoes/PublicacoesArquivos/publicacao-250/topico-304/EPE%20-%202%C2%BA%20Biocombust%C3%ADveis%20x%20MDL%5B1%5D.pdf</a><br>
+<a href="https://observatoriodopetroleo.org/conheca-alguns-impactos-ambientais-causados-pelo-uso-de-combustiveis-fosseis/" class="uri">https://observatoriodopetroleo.org/conheca-alguns-impactos-ambientais-causados-pelo-uso-de-combustiveis-fosseis/</a><br>
+<a href="https://sunne.com.br/blog/saiba-os-impactos-dos-combustiveis-fosseis/" class="uri">https://sunne.com.br/blog/saiba-os-impactos-dos-combustiveis-fosseis/</a><br>
+<a href="https://ric.cps.sp.gov.br/bitstream/123456789/6774/1/tecnicoemqu%C3%ADmica_2021_2_marcosoliveira_impactoscausadospelousodoscombust%C3%ADveisf%C3%B3sseis.pdf" class="uri">https://ric.cps.sp.gov.br/bitstream/123456789/6774/1/tecnicoemqu%C3%ADmica_2021_2_marcosoliveira_impactoscausadospelousodoscombust%C3%ADveisf%C3%B3sseis.pdf</a><br>
+<a href="https://antigo.mma.gov.br/mma-em-numeros/emissoes-veiculares.html" class="uri">https://antigo.mma.gov.br/mma-em-numeros/emissoes-veiculares.html</a> <a href="https://secom.ufg.br/n/33974-catastrofe-ambiental-petroleo-no-mar" class="uri">https://secom.ufg.br/n/33974-catastrofe-ambiental-petroleo-no-mar</a> <a href="https://anfavea.com.br/site/o-que-e-o-proconve/" class="uri">https://anfavea.com.br/site/o-que-e-o-proconve/</a> <a href="https://dadosabertos.ibama.gov.br/dataset/emissoes-de-poluentes-atmosfericos" class="uri">https://dadosabertos.ibama.gov.br/dataset/emissoes-de-poluentes-atmosfericos</a> <a href="https://www.gov.br/ibama/pt-br/assuntos/noticias/2026/pioneiro-na-america-latina-programa-de-controle-da-poluicao-veicular-completa-40-anos" class="uri">https://www.gov.br/ibama/pt-br/assuntos/noticias/2026/pioneiro-na-america-latina-programa-de-controle-da-poluicao-veicular-completa-40-anos</a><br>
+<a href="https://professor.ufop.br/sites/default/files/victor/files/reducao_com_monoxido_de_carbono_-_parte_1.pdf" class="uri">https://professor.ufop.br/sites/default/files/victor/files/reducao_com_monoxido_de_carbono_-_parte_1.pdf</a><br>
+<a href="https://totalenergies.com.br/catalisador-automotivo-o-que-e-e-como-funciona" class="uri">https://totalenergies.com.br/catalisador-automotivo-o-que-e-e-como-funciona</a><br>
+<a href="https://blog.simplusbr.com/injecao-direta-de-combustivel/" class="uri">https://blog.simplusbr.com/injecao-direta-de-combustivel/</a></p>
+<p>&lt;Apoio de ia - Claude opus 4.8: Prompt “Corrija a sintaxe do meu texto e organize de uma forma que faca mais sentido sem o acrescimo de nada externo ao conteudo do texto. E separe entre introducao desenvolvimento e conclusao de acordo com os graficos da imagem”</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<footer style="text-align:center; margin-top:4rem; padding-top:1.5rem; border-top:1px solid #e0e0e0;">
+  <a href="https://github.com/Leocarletto" style="color:#2B2423; text-decoration:none; font-size:1.5rem;" aria-label="GitHub">
+    <i class="bi bi-github"></i>
+  </a>
+</footer>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiada");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiada");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

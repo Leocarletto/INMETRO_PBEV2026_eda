@@ -1,0 +1,19 @@
+project:
+  type: default
+
+author: "Leonardo Carletto"
+
+format:
+  html:
+    theme: [litera, styles.scss]
+    highlight-style: tomorrow-night-bright-r-classic.theme
+    toc: true
+    toc-location: right
+    code-fold: false
+    include-after-body: footer.html
+
+execute:
+  echo: false
+  warning: false
+  message: false
+  freeze: auto

@@ -1,0 +1,144 @@
+/* quarto syntax highlight colors */
+:root {
+  --quarto-hl-co-color: #969896;
+  --quarto-hl-kw-color: #c397d8;
+  --quarto-hl-cf-color: #c397d8;
+  --quarto-hl-op-color: #56B6C2;
+  --quarto-hl-fu-color: #c397d8;
+  --quarto-hl-dt-color: #e78c45;
+  --quarto-hl-st-color: #b9ca4a;
+  --quarto-hl-ch-color: #b9ca4a;
+  --quarto-hl-dv-color: #e78c45;
+  --quarto-hl-fl-color: #e78c45;
+  --quarto-hl-cn-color: #e78c45;
+  --quarto-hl-va-color: #dedede;
+  --quarto-hl-bu-color: #e7c547;
+  --quarto-hl-at-color: #e7c547;
+  --quarto-hl-pp-color: #c397d8;
+  --quarto-hl-er-color: #ffffff;
+  --quarto-hl-wa-color: #ffffff;
+  --quarto-hl-in-color: #ffffff;
+}
+
+/* other quarto variables */
+:root {
+  --quarto-font-monospace: "Inconsolata";
+}
+
+/* syntax highlight based on Pandoc's rules */
+pre > code.sourceCode > span {
+  color: #dedede;
+}
+
+code.sourceCode > span {
+  color: #dedede;
+}
+
+div.sourceCode,
+div.sourceCode pre.sourceCode {
+  color: #dedede;
+}
+
+/* Normal */
+code span {
+  color: #dedede;
+}
+
+/* Attribute */
+code span.at {
+  color: #e7c547;
+}
+
+/* BuiltIn */
+code span.bu {
+  color: #e7c547;
+}
+
+/* ControlFlow */
+code span.cf {
+  color: #c397d8;
+}
+
+/* Char */
+code span.ch {
+  color: #b9ca4a;
+}
+
+/* Constant */
+code span.cn {
+  color: #e78c45;
+}
+
+/* Comment */
+code span.co {
+  color: #969896;
+}
+
+/* DataType */
+code span.dt {
+  color: #e78c45;
+}
+
+/* DecVal */
+code span.dv {
+  color: #e78c45;
+}
+
+/* Error */
+code span.er {
+  color: #ffffff;
+  background-color: #df5f5f;
+}
+
+/* Float */
+code span.fl {
+  color: #e78c45;
+}
+
+/* Function */
+code span.fu {
+  color: #c397d8;
+}
+
+/* Information */
+code span.in {
+  color: #ffffff;
+  background-color: #000000;
+}
+
+/* Keyword */
+code span.kw {
+  color: #c397d8;
+}
+
+/* Operator */
+code span.op {
+  color: #56B6C2;
+}
+
+/* Preprocessor */
+code span.pp {
+  color: #c397d8;
+}
+
+/* String */
+code span.st {
+  color: #b9ca4a;
+}
+
+/* Variable */
+code span.va {
+  color: #dedede;
+}
+
+/* Warning */
+code span.wa {
+  color: #ffffff;
+  background-color: #b798bf;
+}
+
+.prevent-inlining {
+  content: "</";
+}
+
+/*# sourceMappingURL=6607970801d3935fdc646c9094d3afe4.css.map */
