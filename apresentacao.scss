@@ -1,0 +1,127 @@
+/*-- scss:defaults --*/
+// Fontes (mesma identidade visual do relatório)
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Inconsolata:wght@200..900&display=swap');
+
+$font-family-sans-serif: "Crimson Text", Georgia, serif !default;
+
+// Paleta (mesma do relatório: laranja dos links + verde da tabela gt)
+$body-bg:   #FCFAF7 !default;   // off-white suave
+$body-color: #2B2423 !default;  // marrom escuro (texto do relatório)
+$accent:    #E1955F !default;   // laranja dos links do relatório
+$accent-2:  #31a354 !default;   // verde da tabela gt (CO2 evitado)
+
+// Tipografia da apresentação
+$presentation-font-size-root: 30px !default;
+$presentation-heading-font: "Crimson Text", Georgia, serif !default;
+$presentation-heading-color: #2B2423 !default;
+$presentation-heading-font-weight: 700 !default;
+
+// Links
+$link-color: $accent !default;
+
+/*-- scss:rules --*/
+.reveal h1,
+.reveal h2 {
+  letter-spacing: -0.5px;
+}
+
+// Barra de destaque sob os títulos de seção
+.reveal h2 {
+  border-bottom: 3px solid $accent;
+  padding-bottom: 0.2em;
+  margin-bottom: 0.5em;
+}
+
+.reveal .slide-title-bar h2 {
+  border-bottom: none;
+}
+
+// Slide de título
+#title-slide .title {
+  color: #2B2423;
+  font-size: 1.7em;
+}
+#title-slide .subtitle {
+  color: $accent;
+  font-style: italic;
+}
+.reveal .quarto-title-author-name,
+.reveal #title-slide .quarto-title-authors,
+.reveal #title-slide .date {
+  color: #5a4f4a;
+}
+
+// Citações / destaques
+.reveal blockquote {
+  background: rgba(225, 149, 95, 0.10);
+  border-left: 5px solid $accent;
+  font-style: normal;
+  width: 95%;
+  padding: 0.5em 0.8em;
+  box-shadow: none;
+}
+
+// Listas mais arejadas
+.reveal ul li,
+.reveal ol li {
+  margin-bottom: 0.35em;
+}
+
+// Caixas de destaque numéricas
+.stat-box {
+  background: #ffffff;
+  border: 1px solid #ece2d8;
+  border-top: 4px solid $accent;
+  border-radius: 8px;
+  padding: 0.6em 0.4em;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+.stat-box .big {
+  display: block;
+  font-size: 1.9em;
+  font-weight: 700;
+  color: $accent;
+  line-height: 1.1;
+}
+.stat-box.green { border-top-color: $accent-2; }
+.stat-box.green .big { color: $accent-2; }
+.stat-box .lbl {
+  display: block;
+  font-size: 0.62em;
+  color: #5a4f4a;
+}
+
+// Rodapé e número de slide
+.reveal .footer {
+  color: #8a7d75;
+  font-size: 0.5em;
+}
+.reveal .slide-number {
+  color: $accent;
+}
+
+// Imagens com leve moldura
+.reveal .slide img.framed {
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+}
+
+// Legendas de figura
+.reveal figcaption {
+  font-size: 0.55em;
+  color: #8a7d75;
+  font-style: italic;
+}
+
+// Tabela menor para caber no slide
+.reveal table {
+  font-size: 0.62em;
+}
+
+// Referências compactas
+.refs {
+  font-size: 0.5em;
+  line-height: 1.35;
+  color: #4a423d;
+}

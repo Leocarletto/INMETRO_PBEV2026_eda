@@ -1,15 +1,250 @@
 ---
-title: "Apresentação projeto 1"
-format: revealjs
+title: "Como os biocombustíveis podem ajudar a diminuir a poluição"
+subtitle: "Análise exploratória do PBEV 2026 — INMETRO"
+author: "Leonardo Carletto"
+date: today
+lang: pt-br
+format:
+  revealjs:
+    theme: [default, apresentacao.scss]
+    slide-number: c/t
+    show-slide-number: all
+    transition: slide
+    background-transition: fade
+    embed-resources: true
+    preview-links: true
+    fig-align: center
+    width: 1280
+    height: 720
+    footer: "EDA · PBEV 2026 (INMETRO) · Leonardo Carletto"
+title-slide-attributes:
+  data-background-image: images/marcador.jpg
+  data-background-size: cover
+  data-background-opacity: "0.12"
 ---
 
-## Automoveis a combustão e suas consequencias
+```{r}
+#| label: setup
+#| include: false
 
-Na sociedade moderna, a emissão de poluentes e derivados de combustiveis fosseis advindas de veiculos a combustão, sem duvidas, são um dos desafios da modernidade. As consequências do uso em larga escala dessas fontes de energia, já causam impactos significativos e preocupantes em nossa sociedade, principalmente em grandes centros ubarnos! Os principais impactos são a poluição ambiental, chuvas acidas, poluição do ar e a emissão de gases de efeito estufa, além dos problemas causados por erro humano como, vazamento de petroleo e oléo em navios, contaminando os mares e oceanos tornando a area contaminada um lugar inóspito a vida. Esses problemas são bem evidenciados na segunda edição do relatório ["Do Berço ao Túmulo: o impacto dos combustíveis fósseis na saúde"] produzido pela Global Climate & Health Alliance, uma coalização internacional que busca combater as mudanças climáticas e atingir melhorias na da área de saúde publica. No Brasil, O Proconve (Programa de Controle da Poluição do Ar por Veículos Automotores) criado em 1986, lei criada com o objetivo de diminuir a poluição veicular completou recentemente completou 40 anos e seus impactos são extremamente positivos. O nível de emissão de monóxido de carbono por quilômetro rodado chegava a 54 g/km por veiculo e se considerar os 13 milhoes de veiculos da época, os numeros chegavam em 702 kg do poluente para um unico veiculo cerca 9.126 mill toneladas para o total da frota. Atualmente, o nível de emissão está em cerca de 0,4 g/km por km rodado, o que representa uma redução superior a 98% em relação ao início da implementação do programa para um unico veiculo, e se considerarmos a frota atual de 129 milhões de veículos, um veiculo polui cerca de 5,2 kg em um ano e toda frota cerca de (670,8 mil toneladas) uma redução de pelo menos 92%, dados do [Ibama](https://www.gov.br/ibama/pt-br/assuntos/noticias/2026/pioneiro-na-america-latina-programa-de-controle-da-poluicao-veicular-completa-40-anos). E para que fosse possivel essas reduções, os carros foram se modificando com o passar dos anos, uma mudança dessa magnitude evidentemente não veio pela boa vontade das empresas. Uma das imposições, foi a implementação dos catalisadores, a principal tarefa do catalisador é transformar três dos principais poluentes liberados pelo escapamento em substâncias menos prejudiciais ao planeta, no que diz respeito ao que estamos analizando, o monóxido de carbono é um gás tóxico. O catalisador automotivo converte o CO em dióxido de carbono (CO2), um gás que, embora seja poluente, não é tóxico da mesma forma que o monóxido de carbono. E isso somente já significa uma melhora na qualidade do ar respirado nas cidades, essa solução de transformação de CO em CO2 tira o problema do ar respirado e antecipa o que aconteceria inevitalmente, a transformação de CO em CO2, após a reação com o oxigênio, proporcionando assim uma melhoria qualitativa do ar respirado nas cidades. Outras soluções foram implementadas com o passar dos anos, como o uso da injeção direta de combustivel,que causa a do consumo de combustivel e da da emissão de CO2, entre outros avanços como a melhoria da qualidade do combustivel e adesão ao etanol, o uso do etanol parte da gasolina, e do biodiesel ao diesel. Essas mudanças representam melhorias incomparáveis ao que estavam presentes anteriores ao Proconve. Nesse cenário de necessidade de renovação energetica limpa no Brasil, o [Etanol](https://www.raizen.com.br/blog/etanol) (um biocombustível de matéria-prima vegetal, produzido por meio da fermentação do amido ou de outros açúcares, de origem vegetal, se destaca por ser um combustivel sustentável, renovável e pouco poluente em comparação com os combustiveis fosseis) une a necessidade por energias renovaveis e menos poluentes com a capacidade de produção do etanol brasileiro. Vale lembrar que diferente dos combustiveis fosseis que tem uma finitude, o etanol é renovavel e também uma fonte de energia mais limpa. Isso porque sua produção emite até 80% menos de gases de efeito estufa (GEE) - como dióxido de carbono (CO2), gás metano (CH4) e óxido nitroso (NO2), quando comparado à gasolina e o oléo diesel, para essa analise, o foco de emissão de poluentes estara voltado para o CO2.
+library(tidyverse)
+library(gt)
 
-## O foco da análise exploratória (EDA) na base de dados do INMETRO, o PBEV2026 (Programa Brasileiro de Etiquetagem Veicular)
+pbev <- readRDS("pbev.rds") |>
+  filter(emissao_gasolina_diesel_co2_total_g_km < 1000)
 
+emissao_anual <- pbev |>
+  group_by(categoria) |>
+  summarise(
+    Etanol = mean(emissao_etanol_co2_total_g_km, na.rm = TRUE) * 13000 / 1000,
+    Gasolina_ou_Diesel = mean(emissao_gasolina_diesel_co2_total_g_km, na.rm = TRUE) * 13000 / 1000
+  ) |>
+  mutate(
+    CO2_Evitado_Usando_Etanol = Gasolina_ou_Diesel - Etanol
+  )
+```
 
-## Referencias
+## O desafio dos combustíveis fósseis {.smaller}
 
-<https://www.cetesb.sp.gov.br/cetesb/qualidade_ambiental/emissao_veicular> <https://www.cetesb.sp.gov.br/cetesb/qualidade_ambiental/emissao_veicular/proconve> <https://www.raizen.com.br/blog/etanol> <https://www.epe.gov.br/sites-pt/publicacoes-dados-abertos/publicacoes/PublicacoesArquivos/publicacao-250/topico-304/EPE%20-%202%C2%BA%20Biocombust%C3%ADveis%20x%20MDL%5B1%5D.pdf> <https://observatoriodopetroleo.org/conheca-alguns-impactos-ambientais-causados-pelo-uso-de-combustiveis-fosseis/> <https://sunne.com.br/blog/saiba-os-impactos-dos-combustiveis-fosseis/> <https://ric.cps.sp.gov.br/bitstream/123456789/6774/1/tecnicoemqu%C3%ADmica_2021_2_marcosoliveira_impactoscausadospelousodoscombust%C3%ADveisf%C3%B3sseis.pdf> <https://antigo.mma.gov.br/mma-em-numeros/emissoes-veiculares.html> <https://secom.ufg.br/n/33974-catastrofe-ambiental-petroleo-no-mar> <https://anfavea.com.br/site/o-que-e-o-proconve/> <https://dadosabertos.ibama.gov.br/dataset/emissoes-de-poluentes-atmosfericos> <https://www.gov.br/ibama/pt-br/assuntos/noticias/2026/pioneiro-na-america-latina-programa-de-controle-da-poluicao-veicular-completa-40-anos> <https://professor.ufop.br/sites/default/files/victor/files/reducao_com_monoxido_de_carbono_-_parte_1.pdf> <https://totalenergies.com.br/catalisador-automotivo-o-que-e-e-como-funciona> <https://blog.simplusbr.com/injecao-direta-de-combustivel/>
+::::: columns
+::: {.column width="48%"}
+A emissão de poluentes por **veículos a combustão** é um dos grandes desafios da modernidade, sobretudo nos **centros urbanos**.
+
+Principais impactos:
+
+- Poluição do ar e **gases de efeito estufa**
+- Chuvas ácidas
+- **Vazamentos de óleo e petróleo** que contaminam mares e oceanos
+
+Bem evidenciado no relatório [Do Berço ao Túmulo: o impacto dos combustíveis fósseis na saúde](https://climateandhealthalliance.org/wp-content/uploads/2025/09/C2G-Report-low-res-Portuguese.pdf), da Global Climate & Health Alliance.
+:::
+
+::: {.column width="52%"}
+![](images/oleo_litoral1.jpg){.framed style="height:230px; width:100%; object-fit:cover;"}
+
+![Manchas de óleo no litoral do Nordeste (2019). Crédito: Ibama.](images/oleo_litoral2.jpg){.framed style="height:230px; width:100%; object-fit:cover;"}
+:::
+:::::
+
+## 40 anos de Proconve: avanços reais {.smaller}
+
+O **Proconve** (1986) reduziu drasticamente a emissão de monóxido de carbono (CO) por km rodado.
+
+::::: columns
+::: {.column width="33%"}
+::: {.stat-box}
+[54 → 0,4]{.big}
+[g/km de CO por veículo]{.lbl}
+:::
+:::
+
+::: {.column width="33%"}
+::: {.stat-box}
+[−98%]{.big}
+[emissão de CO por veículo]{.lbl}
+:::
+:::
+
+::: {.column width="33%"}
+::: {.stat-box .green}
+[−92%]{.big}
+[emissão total da frota nacional]{.lbl}
+:::
+:::
+:::::
+
+O catalisador converte o **CO (tóxico)** em **CO₂** — poluente, mas não tóxico da mesma forma. A adesão ao **etanol** é mais um passo nessa trajetória de melhoria.
+
+## A base de dados: PBEV 2026
+
+::::: columns
+::: {.column width="58%"}
+**Fonte:** PBEV — Programa Brasileiro de Etiquetagem Veicular, mantido pelo **INMETRO** em parceria com o **IBAMA**.
+
+**Como é coletada:** ensaios laboratoriais padronizados (ciclos de cidade e estrada), feitos pelas montadoras e fiscalizados pelo INMETRO; divulgados em formato aberto.
+
+**Observações:** versões de veículos leves novos comercializados no Brasil (veículos elétricos não foram considerados).
+:::
+
+::: {.column width="42%"}
+**Variáveis analisadas**
+
+- **Categoria** do veículo
+- **Emissão de CO₂** (g/km) — etanol e gasolina/diesel
+- **Consumo combinado** (km/l) — etanol e gasolina/diesel
+:::
+:::::
+
+## Perguntas de pesquisa
+
+**População-alvo:** versões de veículos leves novos etiquetados pelo PBEV 2026.
+
+1. O **etanol** emite menos **CO₂ por km** que a gasolina/diesel? Em quais categorias a diferença é maior?
+2. Como se compara o **consumo (km/l)** do etanol ao da gasolina/diesel?
+3. Quanto **CO₂, em média, seria evitado por ano** ao usar etanol, em cada categoria?
+
+## Distribuição das emissões de CO₂ {.smaller}
+
+*Objetivo: estudar a **frequência** das emissões de CO₂ por categoria, separando etanol de gasolina/diesel.*
+
+![](images/grafico_emissao.png){.framed fig-align="center" width="82%"}
+
+> Na maioria das categorias, a gasolina/diesel se concentra em **patamares mais altos** → o etanol tende a **poluir menos por km**.
+
+## Consumo de combustível por categoria {.smaller}
+
+*Objetivo: comparar o **consumo (km/l)** entre categorias (mín. 3 veículos; valores ausentes removidos).*
+
+![](images/grafico_consumo.png){.framed fig-align="center" width="82%"}
+
+> Etanol ~**5,7 a 11,9 km/l** · Gasolina/diesel ~**4,7 a 17,2 km/l** → com etanol percorre-se **menos km por litro**.
+
+## Etanol: combustível renovável {.smaller}
+
+::::: columns
+::: {.column width="55%"}
+O **etanol** é um biocombustível de matéria-prima vegetal, produzido pela fermentação de açúcares.
+
+- **Renovável** — ao contrário dos fósseis, que são finitos
+- Produção emite até **80% menos** poluentes que gasolina e diesel
+- Une **energia limpa** à capacidade produtiva brasileira
+
+> A vantagem ambiental por km convive com um **consumo maior** de combustível — um ponto de atenção.
+:::
+
+::: {.column width="45%"}
+![Bomba de abastecimento de etanol (álcool).](images/marcador.jpg){.framed width="85%"}
+:::
+:::::
+
+## Emissão média anual de CO₂ por categoria {.smaller .scrollable}
+
+*Objetivo: **quantificar** a emissão média anual e o **CO₂ evitado** com etanol (médias por categoria, base de 13.000 km/ano).*
+
+```{r}
+#| label: tabela-gt
+#| echo: false
+
+emissao_anual |>
+  gt() |>
+  tab_header(
+    title = "Emissão média de CO₂ por categoria veicular",
+    subtitle = "Médias estimadas em kg de CO₂ por ano (13.000 km rodados)"
+  ) |>
+  cols_label(
+    categoria                 = "Categoria",
+    Etanol                    = "Etanol (kg/ano)",
+    Gasolina_ou_Diesel        = "Gasolina/diesel (kg/ano)",
+    CO2_Evitado_Usando_Etanol = "CO₂ evitado com etanol (kg/ano)"
+  ) |>
+  fmt_number(
+    columns = where(is.numeric),
+    decimals = 1,
+    dec_mark = ",",
+    sep_mark = "."
+  ) |>
+  sub_missing(
+    columns = everything(),
+    missing_text = "-"
+  ) |>
+  data_color(
+    columns = c(Etanol, Gasolina_ou_Diesel),
+    palette = "Reds"
+  ) |>
+  data_color(
+    columns = CO2_Evitado_Usando_Etanol,
+    palette = c("#e5f5e0", "#a1d99b", "#31a354")
+  ) |>
+  tab_source_note(
+    source_note = "Fonte: INMETRO — Programa Brasileiro de Etiquetagem Veicular (PBEV 2026)."
+  ) |>
+  tab_options(
+    table.font.size       = px(20),
+    data_row.padding      = px(3),
+    column_labels.padding = px(3),
+    heading.padding       = px(3),
+    table.width           = pct(90)
+  )
+```
+
+> Em **todas** as categorias com etanol, o CO₂ evitado é **positivo**. Maiores ganhos: **Comercial** (~770 kg), **Fora de Estrada Grande** (~529) e **Picape** (~517); menores: **Utilitário Esportivo Grande** (~44) e **Médio** (~67).
+
+## Conclusões {.smaller}
+
+- O **etanol emite, em média, menos CO₂ por km** que gasolina e diesel em **todas** as categorias analisadas.
+- Os **maiores ganhos ambientais** estão nas categorias mais pesadas (comerciais e picapes).
+- Em contrapartida, o **rendimento (km/l) do etanol é menor** — a vantagem ambiental por km precisa ser avaliada junto ao maior volume de combustível consumido.
+
+## Desafios {.smaller}
+
+- Grande quantidade de **valores ausentes** na emissão do etanol: **393 das 639 versões** não têm o dado (por não serem flex/etanol).
+- Presença de **categorias com poucos veículos**, o que limita comparações estatísticas mais robustas.
+
+## Uso de inteligência artificial {.smaller}
+
+Foi utilizada a ferramenta **Claude (Opus 4.8)** para:
+
+- correção da sintaxe e organização/disposição do texto;
+- dispor os gráficos de *density ridges* e *boxplot* lado a lado mantendo a interatividade (**ggiraph**);
+- ajustar o posicionamento dos elementos.
+
+## Referências principais {.smaller}
+
+::: {.refs}
+- INMETRO. **Programa Brasileiro de Etiquetagem Veicular (PBEV 2026)** — dados abertos.
+- IBAMA. *Pioneiro na América Latina, programa de controle da poluição veicular completa 40 anos.*
+- GLOBAL CLIMATE & HEALTH ALLIANCE. *Do Berço ao Túmulo: o impacto dos combustíveis fósseis na saúde* (2ª ed.).
+- RAÍZEN. *Etanol.* · CETESB. *Emissão veicular / Proconve.* · ANFAVEA. *O que é o Proconve.*
+
+A lista completa de referências está disponível no relatório técnico.
+:::
+
+## {background-image="images/oleo_litoral2.jpg" background-opacity="0.30" background-color="#2B2423"}
+
+::: {style="text-align:center; color:#FBF8F4; margin-top:1.2em;"}
+[Obrigado!]{style="font-size:2.2em; font-weight:700;"}
+
+[O etanol emite, em média, **menos CO₂ por km** em todas as categorias analisadas.]{style="display:block; font-size:0.95em; margin-top:0.4em;"}
+
+[Leonardo Carletto · EDA do PBEV 2026]{style="display:block; color:#E1955F; font-size:0.85em; margin-top:0.6em;"}
+:::

@@ -3,14 +3,11 @@ project:
 
 author: "Leonardo Carletto"
 
-format:
-  html:
-    theme: [litera, styles.scss]
-    highlight-style: tomorrow-night-bright-r-classic.theme
-    toc: true
-    toc-location: right
-    code-fold: false
-    include-after-body: footer.html
+# Cada documento define o seu próprio formato:
+#   relatorio.qmd    -> html (arquivo único, self-contained)
+#   apresentacao.qmd -> revealjs
+# Por isso não há um "format" global aqui (evita renderizar a
+# apresentação como html por engano).
 
 execute:
   echo: false
