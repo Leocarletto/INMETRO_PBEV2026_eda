@@ -1,7 +1,5 @@
 ---
-title: "Como os biocombustíveis podem ajudar a diminuir a poluição veicular"
-subtitle: "EDA - Inmetro PBEV 2026"
-categories: [PBEV_EDA]
+title: "Como os biocombustíveis podem ajudar a diminuir a poluição"
 author: "Leonardo Carletto"
 date: today
 lang: pt-br
@@ -12,27 +10,13 @@ lang: pt-br
 #| include: false
 
 library(tidyverse)
-library(psych)        # mantido para estatísticas descritivas detalhadas (não usado no momento)
+library(patchwork)
 library(formattable)
 library(gt)
 library(gtExtras)
 library(ggridges)
 library(wesanderson)
-library(ggiraph)      # densidades e boxplots interativos (estilo ggplot)
-```
-
-```{r, Tema de plot}
-#| include: false
-
-theme_set(
-  theme_ridges() +
-    theme(legend.position = "none")
-)
-minhas_cores <- wes_palette("Darjeeling2", n = 15, type = "continuous")
-options(
-  ggplot2.discrete.fill   = minhas_cores,
-  ggplot2.discrete.colour = minhas_cores
-)
+library(ggiraph)     
 ```
 
 ```{r, Base de dados}
@@ -40,6 +24,26 @@ options(
 
 pbev <- readRDS("pbev.rds")
 ```
+
+```{r, Tema de plot}
+#| include: false
+
+theme_set(
+  theme_ridges() +
+    theme(legend.position = "right")
+)
+
+cats <- sort(unique(pbev$categoria))
+minhas_cores <- wes_palette("Darjeeling2", n = length(cats), type = "continuous")
+names(minhas_cores) <- cats
+
+options(
+  ggplot2.discrete.fill   = unname(minhas_cores),
+  ggplot2.discrete.colour = unname(minhas_cores)
+)  
+```
+
+
 
 ```{r, Alteracoes na base}
 #| include: false
@@ -77,109 +81,113 @@ as_tibble(emissao_anual)
 
 # Automóveis a combustão e suas consequências
 
-![Técnicos do IPEM-RJ fiscalizando bombas de combustível. Fonte: IPEM-RJ (CC BY 2.0 BR).](images/marcador.jpg){.banner}
+  Na sociedade moderna, a emissão de poluentes e derivados de combustíveis fósseis advinda de veículos a combustão é, sem dúvida, um dos desafios da modernidade. As consequências do uso em larga escala dessas fontes de energia causam impactos significativos e preocupantes na nossa sociedade, principalmente nos grandes centros urbanos. Os principais impactos são a poluição ambiental, as chuvas ácidas, a poluição do ar e a emissão de gases de efeito estufa, além dos problemas causados por erros humanos, como o vazamento de óleo e petróleo em refinarias e navios de extração, que, como consequência, contaminam os mares e oceanos, tornando as áreas afetadas em lugares inóspitos à vida. Esses problemas são bem evidenciados na segunda edição do relatório ["Do Berço ao Túmulo: o impacto dos combustíveis fósseis na saúde"](https://climateandhealthalliance.org/wp-content/uploads/2025/09/C2G-Report-low-res-Portuguese.pdf), produzido pela [Global Climate & Health Alliance](https://climateandhealthalliance.org/), uma coalizão internacional que busca combater as mudanças climáticas e atingir melhorias na área de saúde pública.
 
-> O foco desta análise exploratória (EDA) na base do INMETRO — o PBEV 2026, Programa Brasileiro de Etiquetagem Veicular — foi investigar como o uso do biocombustível etanol pode impactar na diminuição da poluição em comparação aos combustíveis fósseis (óleo diesel e gasolina), quantificar os impactos anuais da emissão de poluentes desses combustíveis por categoria de veículo e medir a quantidade de combustível gasta por quilômetro rodado em cada categoria, por tipo de combustível.
+![Grupo de Trabalho participa de ações para retirada de óleo na Costa dos Corais em Alagoas. | Crédito: Felipe Brasil/ Fotos Públicas](images/oleo.jpg){.banner}
 
-  Na sociedade moderna, a emissão de poluentes e derivados de combustíveis fósseis advinda de veículos a combustão é, sem dúvida, um dos desafios da modernidade. As consequências do uso em larga escala dessas fontes de energia causam impactos significativos e preocupantes na nossa sociedade, principalmente nos grandes centros urbanos. Os principais impactos são a poluição ambiental, as chuvas ácidas, a poluição do ar e a emissão de gases de efeito estufa, além dos problemas causados por erros humanos, como o vazamento de óleo e petróleo em refinarias e navios de extração, que, como consequência, contaminam os mares e oceanos, tornando as áreas afetadas em lugares inóspitos à vida. Esses problemas são bem evidenciados na segunda edição do relatório "Do Berço ao Túmulo: o impacto dos combustíveis fósseis na saúde", produzido pela Global Climate & Health Alliance, uma coalizão internacional que busca combater as mudanças climáticas e atingir melhorias na área de saúde pública.
-
-![Felipe Brasil / Fotos Públicas (2019)](images/oleo.jpg){.banner}
-
-   No Brasil, o Proconve (Programa de Controle da Poluição do Ar por Veículos Automotores), criado em 1986 com o objetivo de diminuir a poluição veicular, completou recentemente 40 anos, e seus impactos são extremamente positivos. O nível de emissão de monóxido de carbono por quilômetro rodado chegava a 54 g/km por veículo; considerando os 13 milhões de veículos da época, os números chegavam a aproximadamente 702 kg do poluente para um único veículo em um ano, e cerca de 9.126 mil toneladas para o total da frota anual. Atualmente, o nível de emissão está em cerca de 0,4 g/km por quilômetro rodado, o que representa uma redução superior a 98% em relação ao início da implementação do programa para um único veículo. Considerando a frota atual de 129 milhões de veículos, um veículo polui cerca de 5,2 kg em um ano, e toda a frota cerca de 670,8 mil toneladas — uma redução de pelo menos 92% em comparação aos valores anteriores à implementação da lei, segundo dados do Ibama.
-
-Para que fossem possíveis essas reduções, os carros foram se modificando com o passar dos anos; uma mudança dessa magnitude, evidentemente, não veio pela boa vontade das empresas. Uma das imposições foi a implementação dos catalisadores. A principal tarefa do catalisador é transformar três dos principais poluentes liberados pelo escapamento em substâncias menos prejudiciais ao planeta. No que diz respeito ao que estamos analisando, o monóxido de carbono é um gás tóxico, e o catalisador automotivo o converte em dióxido de carbono (CO₂), um gás que, embora seja poluente, não é tóxico da mesma forma que o monóxido de carbono. Isso, por si só, já significa uma melhora na qualidade do ar respirado nas cidades: a transformação de CO em CO₂, após a reação com o oxigênio, antecipa o que aconteceria inevitavelmente, proporcionando uma melhoria qualitativa do ar respirado nas cidades.
-
-Outras soluções foram implementadas com o passar dos anos, como o uso da injeção direta de combustível, que causa a redução do consumo de combustível e da emissão de CO₂, entre outros avanços, como a melhoria da qualidade do combustível e a adesão ao etanol — a adição de etanol à gasolina e de biodiesel ao diesel. Essas mudanças representam melhorias incomparáveis em relação ao que estava presente antes do Proconve.
+   No Brasil, o [Proconve (Programa de Controle da Poluição do Ar por Veículos Automotores)](https://www.gov.br/ibama/pt-br/assuntos/emissoes-e-residuos/emissoes/programa-de-controle-de-emissoes-veiculares-proconve), criado em 1986 com o objetivo de diminuir a poluição veicular, completou recentemente 40 anos, e seus impactos são extremamente positivos. O nível de emissão de monóxido de carbono por quilômetro rodado chegava a 54 g/km por veículo; considerando os 13 milhões de veículos da época, os números chegavam a aproximadamente 702 kg do poluente para um único veículo em um ano, e cerca de 9.126 mil toneladas para o total da frota anual. Atualmente, o nível de emissão está em cerca de 0,4 g/km por quilômetro rodado, o que representa uma redução superior a 98% em relação ao início da implementação do programa para um único veículo. Considerando a frota atual de 129 milhões de veículos, um veículo polui cerca de 5,2 kg em um ano, e toda a frota cerca de 670,8 mil toneladas — uma redução de pelo menos 92% em comparação aos valores anteriores à implementação da lei, segundo dados do [Ibama](https://www.gov.br/mma/pt-br/noticias/proconve-completa-40-anos-com-avancos-para-a-melhoria-do-ar-nas-cidades-brasileiras).
+   
+O monóxido de carbono é um gás tóxico, e o catalisador automotivo — imposto pelas regras do [Proconve (Programa de Controle da Poluição do Ar por Veículos Automotores)](https://www.gov.br/ibama/pt-br/assuntos/emissoes-e-residuos/emissoes/programa-de-controle-de-emissoes-veiculares-proconve) — o converte em dióxido de carbono (CO₂), um gás que, embora poluente, não é tóxico da mesma forma. Na prática, o catalisador apenas antecipa o que aconteceria inevitavelmente na atmosfera: a reação do CO com o oxigênio, que o transforma em CO₂. Essa mudança, por si só, já trouxe melhorias para o ar respirado, especialmente nas grandes metrópoles. Outras soluções foram implementadas com o passar dos anos, como o uso da injeção direta de combustível, que reduz o consumo e a emissão de CO₂, além de avanços como a melhoria da qualidade do combustível e a adesão ao etanol — com a adição de etanol à gasolina e de biodiesel ao diesel. Essas mudanças representam melhorias incomparáveis em relação ao que existia antes do Proconve.
 
 ## A base de dados
 
-Os dados utilizados são do **PBEV 2026 (Programa Brasileiro de Etiquetagem Veicular)**, mantido pelo **INMETRO** em parceria com o IBAMA. Os valores de consumo e emissão são obtidos a partir de **ensaios laboratoriais padronizados** (ciclos de condução de cidade e estrada), realizados pelas montadoras e fiscalizados pelo INMETRO, e divulgados anualmente em formato aberto.
+Os dados utilizados são do [**PBEV 2026 (Programa Brasileiro de Etiquetagem Veicular)**](https://www.gov.br/inmetro/pt-br/assuntos/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular), mantido pelo [**INMETRO**](https://www.gov.br/inmetro/pt-br) em parceria com o [IBAMA](https://www.ibama.gov.br/index.php). Os valores de consumo e emissão são obtidos a partir de **ensaios laboratoriais padronizados** (ciclos de condução de cidade e estrada), realizados pelas montadoras e fiscalizados pelo [INMETRO](https://www.gov.br/inmetro/pt-br), e divulgados mensalmente em formato aberto e consolidades anualmente.
 
-A base analisada contém **639 observações** (cada uma corresponde a uma versão de veículo leve avaliada no programa) distribuídas em **16 categorias** veiculares (Compacto, Picape, Esportivo, etc.). Das variáveis disponíveis, foram selecionadas para este estudo:
+> O foco desta análise exploratória (EDA) - foi investigar como o uso do biocombustível etanol pode impactar na diminuição da poluição em comparação aos combustíveis fósseis (óleo diesel e gasolina), quantificar os impactos anuais da emissão de poluentes desses combustíveis por categoria de veículo e medir a quantidade de combustível gasta por quilômetro rodado em cada categoria, por tipo de combustível.
 
-- **Categoria** — classe do veículo (qualitativa);
-- **Emissão de CO₂ do etanol** (g/km) e **emissão de CO₂ da gasolina/diesel** (g/km) — quantitativas;
-- **Consumo combinado** (cidade + estrada) **do etanol** (km/l) e **da gasolina/diesel** (km/l) — quantitativas.
+Na base analisada, as variáveis selecionadas para este estudo foram:
 
-## Perguntas de pesquisa e objetivos
-
-**População-alvo:** os veículos leves novos comercializados no Brasil em 2026 e avaliados pelo PBEV/INMETRO.
-
-Com base nessa população, este relatório busca responder:
-
-1. **Como se distribuem as emissões de CO₂ (g/km) entre as categorias de veículos**, comparando etanol e gasolina/diesel?
-2. **Há diferença no consumo (km/l) entre as categorias** quando se usa etanol em vez de gasolina/diesel?
-3. **Quanto de CO₂, em média por ano, deixaria de ser emitido** se cada categoria utilizasse etanol no lugar de gasolina/diesel?
-
-As três perguntas podem ser respondidas com esta base, com uma ressalva: a emissão do etanol só existe para veículos flex/etanol, de modo que categorias compostas apenas por veículos a diesel/gasolina não entram nessa comparação. A seguir, cada gráfico e tabela é acompanhado do objetivo que ele busca responder.
+- **Categoria** — classe do veículo;
+- **Emissão de CO₂ do etanol** (g/km) e **emissão de CO₂ da gasolina/diesel** (g/km);
+- **Consumo combinado** (cidade + estrada) **do etanol** (km/l) e **da gasolina/diesel** (km/l).
+- **Veiculos eletricos não foram considerados nessa analise**.
 
 ## Resultados
 
 ### Distribuição das emissões de CO₂ por categoria
 
-Os gráficos abaixo têm como objetivo **estudar a distribuição (frequência) das emissões de CO₂ por categoria**, separadamente para etanol e para gasolina/diesel. Quanto mais larga a faixa, maior a concentração de veículos naquele nível de emissão.
+Os gráficos abaixo têm como objetivo estudar a **frequência** das emissões de CO₂ por categoria, separadamente para etanol e para gasolina/diesel.
 
 ```{r, Plots sobre emissao de co2 por categoria}
 #| echo: false
+#| warning: false
+#| message: false
 
-# Densidade do etanol: ridgeline estático + camada interativa (hover/tooltip)
-band_etanol <- pbev |>
-  filter(!is.na(emissao_etanol_co2_total_g_km)) |>
-  group_by(categoria) |>
-  summarise(media = mean(emissao_etanol_co2_total_g_km), n = n(), .groups = "drop") |>
-  mutate(yy  = as.integer(factor(categoria, levels = levels(pbev$categoria))),
-         tip = paste0(categoria, "\nMédia: ", round(media), " g/km\nn = ", n))
+emissao_long <- pbev |>
+  select(categoria,
+         Etanol = emissao_etanol_co2_total_g_km,
+         `Gasolina/Diesel` = emissao_gasolina_diesel_co2_total_g_km) |>
+  pivot_longer(cols = c(Etanol, `Gasolina/Diesel`),
+               names_to = "combustivel", values_to = "emissao") |>
+  mutate(combustivel = factor(combustivel, levels = c("Etanol", "Gasolina/Diesel")))
 
-g_dens_etanol <- ggplot() +
-  geom_density_ridges(data = pbev,
-    aes(x = emissao_etanol_co2_total_g_km, y = categoria, fill = categoria),
-    scale = 4, rel_min_height = 0.01) +
-  geom_rect_interactive(data = band_etanol,
-    aes(xmin = -Inf, xmax = Inf, ymin = yy - 0.5, ymax = yy + 0.5,
-        tooltip = tip, data_id = categoria),
-    fill = "grey50", alpha = 0) +
-  scale_fill_manual(values = wes_palette("Darjeeling2",
-    n = length(unique(pbev$categoria)), type = "continuous")) +
-  scale_y_discrete(expand = expansion(mult = c(0.01, 0.25))) +
-  labs(x = "Emissão de CO2 do etanol (g/km)", y = NULL,
-       title = "Densidade da emissão de CO2 do etanol")
+p_base <- ggplot(emissao_long, aes(x = emissao, y = categoria, fill = categoria)) +
+  geom_density_ridges(scale = 4, rel_min_height = 0.01) +
+  facet_wrap(~ combustivel, scales = "free_x") +
+  scale_y_discrete(limits = cats, drop = FALSE)
 
-girafe(ggobj = g_dens_etanol, width_svg = 8, height_svg = 5,
-       options = list(opts_hover(css = "fill:#00000022;"),
-                      opts_toolbar(saveaspng = FALSE)))
+fuels <- c("Etanol", "Gasolina/Diesel")
+ridge_geo <- ggplot_build(p_base)$data[[1]] |>
+  as_tibble() |>
+  filter(height >= min_height) |>
+  transmute(
+    x, ymin, ymax,
+    combustivel = factor(fuels[as.integer(PANEL)], levels = fuels),
+    categoria   = factor(cats[group], levels = cats),
+    grp         = interaction(PANEL, group, drop = TRUE)
+  ) |>
+  arrange(combustivel, desc(as.integer(categoria)), x)
 
-# Densidade da gasolina/diesel: ridgeline estático + camada interativa
-band_fossil <- pbev |>
-  filter(!is.na(emissao_gasolina_diesel_co2_total_g_km)) |>
-  group_by(categoria) |>
-  summarise(media = mean(emissao_gasolina_diesel_co2_total_g_km), n = n(), .groups = "drop") |>
-  mutate(yy  = as.integer(factor(categoria, levels = levels(pbev$categoria))),
-         tip = paste0(categoria, "\nMédia: ", round(media), " g/km\nn = ", n))
+resumo_tip <- emissao_long |>
+  filter(!is.na(emissao)) |>
+  group_by(combustivel, categoria) |>
+  summarise(media = mean(emissao), n = n(), .groups = "drop") |>
+  mutate(tip = paste0(categoria,
+                      "\nMédia: ", round(media, 1), " g/km",
+                      "\nn = ", n))
 
-g_dens_fossil <- ggplot() +
-  geom_density_ridges(data = pbev,
-    aes(x = emissao_gasolina_diesel_co2_total_g_km, y = categoria, fill = categoria),
-    scale = 4, rel_min_height = 0.01) +
-  geom_rect_interactive(data = band_fossil,
-    aes(xmin = -Inf, xmax = Inf, ymin = yy - 0.5, ymax = yy + 0.5,
-        tooltip = tip, data_id = categoria),
-    fill = "grey50", alpha = 0) +
-  scale_fill_manual(values = wes_palette("Darjeeling2",
-    n = length(unique(pbev$categoria)), type = "continuous")) +
-  scale_y_discrete(expand = expansion(mult = c(0.01, 0.25))) +
-  labs(x = "Emissão de CO2 da gasolina/diesel (g/km)", y = NULL,
-       title = "Densidade da emissão de CO2 da gasolina/diesel")
+ridge_geo <- ridge_geo |>
+  left_join(resumo_tip, by = c("combustivel", "categoria"))
 
-girafe(ggobj = g_dens_fossil, width_svg = 8, height_svg = 5,
-       options = list(opts_hover(css = "fill:#00000022;"),
-                      opts_toolbar(saveaspng = FALSE)))
+g_emissao <- ggplot(ridge_geo,
+                    aes(x = x, ymin = ymin, ymax = ymax, group = grp,
+                        fill = categoria, tooltip = tip, data_id = categoria)) +
+  geom_ribbon_interactive(color = "black", linewidth = 0.4) +
+  facet_wrap(~ combustivel, scales = "free_x") +
+  scale_fill_manual(values = minhas_cores) +
+  scale_y_continuous(breaks = seq_along(cats), labels = cats,
+                     expand = expansion(mult = c(0.01, 0.05))) +
+  scale_x_continuous(breaks = scales::breaks_pretty(n = 4)) +
+  coord_cartesian(xlim = c(0, NA)) +
+  labs(x = NULL, y = NULL, fill = "Categoria",
+       title = "Densidade da emissão de CO2 (g/km rodado)") +
+  theme(axis.text = element_text(size = 7),
+        plot.title = element_text(size = 12),
+        strip.text = element_text(size = 11, face = "bold"),
+        legend.title = element_text(size = 10, face = "bold"),
+        legend.key.size = unit(0.5, "cm"),
+        legend.text = element_text(size = 8)) +
+  guides(fill = guide_legend(override.aes = list(color = "black")))
+
+girafe(
+  ggobj = g_emissao, width_svg = 9, height_svg = 6,
+  options = list(
+    opts_hover(css = "stroke:black;stroke-width:1.2px;"),
+    opts_hover_inv(css = "opacity:0.3;"),
+    opts_zoom(min = 1, max = 4),
+    opts_sizing(rescale = TRUE, width = 1),
+    opts_toolbar(saveaspng = FALSE)
+  )
+)
+
+
 ```
 
-As distribuições mostram que, para a maioria das categorias, a emissão de CO₂ por quilômetro da gasolina/diesel se concentra em patamares mais altos do que a emissão do etanol, indício de que o etanol tende a poluir menos por quilômetro rodado.
+As distribuições mostram que, para a maioria das categorias, a emissão de CO₂ por quilômetro da gasolina/diesel se concentra em **patamares mais altos** do que a emissão do etanol, indício de que o etanol tende a poluir menos por quilômetro rodado.
 
 ### Consumo de combustível por categoria
 
-Os boxplots interativos a seguir têm como objetivo **comparar o consumo (km/l) entre as categorias**, separando etanol de gasolina/diesel. Foram consideradas apenas categorias com pelo menos 3 veículos e os valores ausentes (NA) foram removidos. Passe o cursor sobre uma caixa para destacá-la e ver a mediana e o número de veículos.
+Os gráficos a seguir têm como objetivo **comparar o consumo (km/l) entre as categorias**, separando etanol de gasolina/diesel. Foram consideradas apenas categorias com pelo menos 3 veículos e os valores ausentes (NA) foram removidos. 
 
 ```{r, Comparativo entre o consumo por categoria em km/l}
 #| echo: false
@@ -195,28 +203,6 @@ dados_diesel <- pbev |>
   ungroup() |>
   droplevels()
 
-g_diesel <- ggplot(dados_diesel,
-                   aes(x = diesel_ou_gasolina_km_por_litro_combinado,
-                       y = categoria, fill = categoria,
-                       tooltip = tip, data_id = categoria)) +
-  geom_boxplot_interactive(color = "black", width = 0.6) +
-  scale_fill_manual(values = wes_palette("Darjeeling2",
-                    n = length(unique(dados_diesel$categoria)),
-                    type = "continuous")) +
-  labs(x = "Consumo (km/l)", y = NULL,
-       title = "Consumo de gasolina/diesel (km/l) por categoria") +
-  theme(legend.position = "none")
-
-girafe(
-  ggobj = g_diesel, width_svg = 8, height_svg = 5,
-  options = list(
-    opts_hover(css = "stroke:black;stroke-width:1.2px;"),
-    opts_hover_inv(css = "opacity:0.3;"),
-    opts_zoom(min = 1, max = 4),
-    opts_toolbar(saveaspng = FALSE)
-  )
-)
-
 dados_etanol <- pbev |>
   filter(!is.na(etanol_km_por_litro_combinado),
          etanol_km_por_litro_combinado > 0) |>
@@ -228,32 +214,49 @@ dados_etanol <- pbev |>
   ungroup() |>
   droplevels()
 
-g_etanol <- ggplot(dados_etanol,
-                   aes(x = etanol_km_por_litro_combinado,
-                       y = categoria, fill = categoria,
-                       tooltip = tip, data_id = categoria)) +
+
+consumo_long <- bind_rows(
+  dados_etanol |>
+    transmute(categoria, consumo = etanol_km_por_litro_combinado,
+              tip, combustivel = "Etanol"),
+  dados_diesel |>
+    transmute(categoria, consumo = diesel_ou_gasolina_km_por_litro_combinado,
+              tip, combustivel = "Gasolina/Diesel")
+) |>
+  mutate(
+    combustivel = factor(combustivel, levels = c("Etanol", "Gasolina/Diesel")),
+    categoria   = factor(categoria, levels = sort(unique(as.character(categoria))))
+  )
+
+g_consumo <- ggplot(consumo_long,
+                    aes(x = consumo, y = categoria, fill = categoria,
+                        tooltip = tip, data_id = categoria)) +
   geom_boxplot_interactive(color = "black", width = 0.6) +
-  scale_fill_manual(values = wes_palette("Darjeeling2",
-                    n = length(unique(dados_etanol$categoria)),
-                    type = "continuous")) +
-  labs(x = "Consumo (km/l)", y = NULL,
-       title = "Consumo de etanol (km/l) por categoria") +
-  theme(legend.position = "none")
+  facet_wrap(~ combustivel, scales = "free_x") +
+  scale_fill_manual(values = minhas_cores) +
+  labs(x = "Consumo (km/l)", y = NULL, fill = "Categoria",
+       title = "Consumo de combustível (km/l) por categoria") +
+  theme(plot.title = element_text(size = 12),
+        strip.text = element_text(size = 11, face = "bold"),
+        legend.title = element_text(size = 10, face = "bold"),
+        legend.key.size = unit(0.5, "cm"),
+        legend.text = element_text(size = 8))
 
 girafe(
-  ggobj = g_etanol, width_svg = 8, height_svg = 5,
+  ggobj = g_consumo, width_svg = 9, height_svg = 6,
   options = list(
     opts_hover(css = "stroke:black;stroke-width:1.2px;"),
     opts_hover_inv(css = "opacity:0.3;"),
     opts_zoom(min = 1, max = 4),
+    opts_sizing(rescale = TRUE, width = 1),
     opts_toolbar(saveaspng = FALSE)
   )
 )
 ```
 
-Observa-se que o rendimento do etanol (entre cerca de 5,7 e 11,9 km/l) é, de modo geral, inferior ao rendimento da gasolina/diesel (entre cerca de 4,7 e 17,2 km/l): com etanol, percorre-se menos quilômetros por litro. Esse é um ponto de atenção, pois a vantagem ambiental por quilômetro convive com um consumo maior de combustível.
+Observa-se que o rendimento do etanol **(entre cerca de 5,7 e 11,9 km/l)** é, de modo geral, inferior ao rendimento da gasolina/diesel **(entre cerca de 4,7 e 17,2 km/l)**: com etanol, percorre-se menos quilômetros por litro. Esse é um ponto de atenção, pois a vantagem ambiental por quilômetro convive com um consumo maior de combustível.
 
-Nesse cenário de necessidade de renovação energética limpa no Brasil, o etanol — um biocombustível de matéria-prima vegetal, produzido por meio da fermentação do amido ou de outros açúcares de origem vegetal — destaca-se por ser um combustível sustentável, renovável e pouco poluente em comparação com os combustíveis fósseis, unindo a necessidade por energias renováveis e menos poluentes à capacidade de produção do etanol brasileiro. Vale lembrar que, diferentemente dos combustíveis fósseis, que têm uma finitude, o etanol é renovável e também uma fonte de energia mais limpa, pois sua produção emite até 80% menos gases de efeito estufa (GEE) — como dióxido de carbono (CO₂), gás metano (CH₄) e óxido nitroso (N₂O) — quando comparado à gasolina e ao óleo diesel.
+Nesse cenário de necessidade de renovação energética limpa no Brasil, o etanol — um biocombustível de matéria-prima vegetal, produzido por meio da fermentação do amido ou de outros açúcares de origem vegetal — destaca-se por ser um combustível sustentável, renovável e pouco poluente em comparação com os combustíveis fósseis, unindo a necessidade por energias renováveis e menos poluentes à capacidade de produção do etanol brasileiro. Vale lembrar que, diferentemente dos combustíveis fósseis, que têm uma finitude, o etanol é renovável e também uma fonte de energia mais limpa, pois sua produção emite até 80% menos poluentes — quando comparado à gasolina e ao óleo diesel.
 
 ### Emissão média anual de CO₂ por categoria
 
@@ -300,6 +303,13 @@ emissao_anual |>
   ) |>
   tab_source_note(
     source_note = "\"-\" = não há dados de etanol para a categoria (sem veículos flex/etanol)."
+  ) |>
+  tab_options(
+    table.font.size       = px(12),
+    data_row.padding      = px(4),
+    column_labels.padding = px(4),
+    heading.padding       = px(4),
+    table.width           = pct(85)
   )
 ```
 
@@ -309,14 +319,13 @@ A tabela confirma a leitura dos gráficos: em **todas as categorias com dados de
 
 A análise exploratória do PBEV 2026 sugere que o **etanol emite, em média, menos CO₂ por quilômetro do que a gasolina e o diesel em todas as categorias analisadas**, com ganhos ambientais maiores nas categorias mais pesadas (comerciais e picapes). Por outro lado, o **rendimento (km/l) do etanol é menor**, o que mostra que a vantagem ambiental por quilômetro precisa ser avaliada junto ao maior volume de combustível consumido.
 
-Entre os **desafios** encontrados, destacam-se a grande quantidade de valores ausentes na emissão do etanol (393 das 639 versões não possuem esse dado, por não serem flex/etanol) e a presença de categorias com poucos veículos, o que limita comparações estatísticas mais robustas. Como **possibilidades para análises futuras**, seria interessante incorporar preço, autonomia total e séries históricas de edições anteriores do PBEV, além de ponderar as emissões pelo perfil real de uso de cada categoria, aproximando o estudo do impacto ambiental efetivo da frota.
+Entre os **desafios** encontrados, destacam-se a grande quantidade de valores ausentes na emissão do etanol (393 das 639 versões não possuem esse dado, por não serem flex/etanol) e a presença de categorias com poucos veículos, o que limita comparações estatísticas mais robustas.
 
 ## Uso de inteligência artificial
 
-Para a elaboração deste relatório foi utilizada a ferramenta de inteligência artificial **Claude (Opus 4.8)**, empregada na **correção da sintaxe e da organização do texto** (separação entre introdução, desenvolvimento e conclusão de acordo com os gráficos), **sem acréscimo de conteúdo externo** ao material produzido pelo autor. Prompt utilizado: *"Corrija a sintaxe do meu texto e organize de uma forma que faça mais sentido sem o acréscimo de nada externo ao conteúdo do texto. E separe entre introdução, desenvolvimento e conclusão de acordo com os gráficos da imagem."*
+Para a elaboração deste relatório, foi utilizada a ferramenta de inteligência artificial Claude (Opus 4.8), empregada na correção da sintaxe, na organização e disposição do texto e na alteração da disposição do geom_density_ridges e do geom_boxplot para que ficassem lado a lado sem perder a interatividade com o ggiraph, além de "desbugar" o posicionamento, que não estava na mesma linha.
 
 ## Referências
-
 1. BRASIL 247. *Impacto ambiental e social do óleo vazado ainda é incalculável*. Disponível em: <https://www.brasil247.com/brasil/impacto-ambiental-e-social-do-oleo-vazado-ainda-e-incalculavel-afirmam-entidades>
 2. PESQUISA FAPESP. *Mais extenso derramamento de petróleo ocorrido no país causa forte impacto na biodiversidade marinha*. Disponível em: <https://revistapesquisa.fapesp.br/mais-extenso-derramamento-de-petroleo-ocorrido-no-pais-causa-forte-impacto-na-biodiversidade-marinha/>
 3. CETESB. *Emissão veicular*. Disponível em: <https://www.cetesb.sp.gov.br/cetesb/qualidade_ambiental/emissao_veicular>
@@ -335,3 +344,5 @@ Para a elaboração deste relatório foi utilizada a ferramenta de inteligência
 15. UFOP. *Redução com monóxido de carbono — Parte 1*. Disponível em: <https://professor.ufop.br/sites/default/files/victor/files/reducao_com_monoxido_de_carbono_-_parte_1.pdf>
 16. TOTALENERGIES. *Catalisador automotivo: o que é e como funciona*. Disponível em: <https://totalenergies.com.br/catalisador-automotivo-o-que-e-e-como-funciona>
 17. SIMPLUS. *Injeção direta de combustível*. Disponível em: <https://blog.simplusbr.com/injecao-direta-de-combustivel/>
+18. BRASILDEFATO *Um ano após vazamento de óleo no Nordeste, nenhum responsável foi identificado*. Disponível em: <https://www.brasildefato.com.br/2020/08/30/um-ano-apos-vazamento-de-oleo-no-nordeste-nenhum-responsavel-foi-identificado/>
+19. G1GloboCE *Óleo derramado no Nordeste em 2019 viajou mais de 8 mil quilômetros e chegou à Flórida, diz pesquisa*. Disponível em : <https://g1.globo.com/ce/ceara/noticia/2026/01/31/oleo-derramado-no-nordeste-em-2019-viajou-mais-de-8-mil-quilometros-e-chegou-a-florida-diz-pesquisa.ghtml>

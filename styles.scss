@@ -1,90 +1,59 @@
 /*-- scss:defaults --*/
-
 // Fonts
 @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Inconsolata:wght@200..900&display=swap');
-
 $font-family-sans-serif:  "Crimson Text" !default;
 $font-family-serif:       "Crimson Text" !default;
 $font-family-monospace:   "Inconsolata" !default;
-$font-size-base:          1.1rem !default;
-
-// Nav bar
-
-.li.a.dropdown-item {
-  color: "#2B2423";
+$font-size-base:          0.92rem !default;
+// Links
+$link-color:            #E1955F !default;
+$link-hover-color:      darken(#E1955F, 12%) !default;
+$link-decoration:       none;
+$link-hover-decoration: none;
+/*-- scss:rules --*/
+// Nav bar / dropdown
+.dropdown-item {
+  color: #2B2423;
 }
-
 .dropdown-text {
-  color: "#FFFFFF";
+  color: #FFFFFF;
 }
-
 // Typography
-
 h1.title {
   font-family: "Crimson Text";
   font-size: 30px;
 }
-
-h1.title.display-7 {
-  font-family: "Crimson Text";
-}
-
 p.subtitle.lead {
   text-align: center;
 }
-
-a:href {
-  color: #00ab6b;
-}
-
-a:hover {
-    color: #038252;
-    text-decoration: none;
-}
-
-//** Global textual link color.
-$link-color:            #E2402E !default;
-//** Link hover color set via `darken()` function.
-$link-hover-color:      darken($link-color, 15%) !default;
-//** Link decoration.
-$link-decoration: none;
-$link-hover-decoration: none;
-
-//** $code-block-bg: #2B2423;
-//*
-
-code {
-  background-color: #000000 !important;  /* background */
-  color: #eeeeee !important;             /* text color */
-  padding: 2px 4px 2px 4px !important;
-  border-radius: 4px !important;
-}
-
+// Navbar
 .navbar {
   color: #FFFFFF;
 }
-
 .navbar-title {
   color: #FFFFFF;
   font-family: "Crimson Text";
 }
-
 a.sidebar-item-text.sidebar-link {
-    color: #FFFFFF;
+  color: #FFFFFF;
 }
-
 .navbar li.dropdown-header {
   text-transform: none;
 }
-
+// Listings
 .quarto-listing-category {
-    font-family: "Crimson Text";
+  font-family: "Crimson Text";
 }
-
 .quarto-listing-category-title {
-    font-family: "Crimson Text";
+  font-family: "Crimson Text";
 }
-
+// Code
+code {
+  background-color: #000000 !important;
+  color: #eeeeee !important;
+  padding: 2px 4px 2px 4px !important;
+  border-radius: 4px !important;
+}
 code span.sc,
 code span.op,
 code span.kw {
@@ -96,7 +65,6 @@ img.banner {
   object-fit: cover;
   max-height: 240px;
 }
-
 .banner ~ figcaption,
 figure:has(img.banner) figcaption {
   font-family: "Crimson Text", serif;
