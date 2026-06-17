@@ -73,7 +73,9 @@ emissao_anual <- pbev |>
   group_by(categoria) |>
   summarise(
     Etanol = mean(emissao_etanol_co2_total_g_km, na.rm = TRUE) * 13000 / 1000,
-    Gasolina_ou_Diesel = mean(emissao_gasolina_diesel_co2_total_g_km, na.rm = TRUE) * 13000 / 1000
+    Etanol_Fossil = mean(emissao_etanol_co2_fossil_total_g_km, na.rm = TRUE) * 13000 / 1000,
+    Gasolina_ou_Diesel = mean(emissao_gasolina_diesel_co2_total_g_km, na.rm = TRUE) * 13000 / 1000,
+    Gasolina_ou_Diesel_Fossil = mean(emissao_gasolina_diesel_co2_fossil_total_g_km, na.rm = TRUE) * 13000 / 1000
   ) |>
   mutate(
     CO2_Evitado_Usando_Etanol = Gasolina_ou_Diesel - Etanol
@@ -108,6 +110,7 @@ Na base analisada, as variáveis selecionadas para este estudo foram:
 
 - **Categoria** — classe do veículo;
 - **Emissão de CO₂ do etanol** (g/km) e **emissão de CO₂ da gasolina/diesel** (g/km);
+- **Emissão de CO₂ fóssil do etanol** (g/km) e **emissão de CO₂ fóssil da gasolina/diesel** (g/km);
 - **Consumo combinado** (cidade + estrada) **do etanol** (km/l) e **da gasolina/diesel** (km/l).
 - **Veiculos eletricos não foram considerados nessa analise**.
 
@@ -282,9 +285,21 @@ emissao_anual |>
   ) |>
   cols_label(
     categoria                 = "Categoria",
-    Etanol                    = "Emissão média etanol (kg/ano)",
-    Gasolina_ou_Diesel        = "Emissão média gasolina/diesel (kg/ano)",
+    Etanol                    = "Total (kg/ano)",
+    Etanol_Fossil             = "Fóssil (kg/ano)",
+    Gasolina_ou_Diesel        = "Total (kg/ano)",
+    Gasolina_ou_Diesel_Fossil = "Fóssil (kg/ano)",
     CO2_Evitado_Usando_Etanol = "CO₂ médio evitado com etanol (kg/ano)"
+  ) |>
+  tab_spanner(
+    label = "Etanol",
+    id = "sp_etanol",
+    columns = c(Etanol, Etanol_Fossil)
+  ) |>
+  tab_spanner(
+    label = "Gasolina/Diesel",
+    id = "sp_gasdiesel",
+    columns = c(Gasolina_ou_Diesel, Gasolina_ou_Diesel_Fossil)
   ) |>
   fmt_number(
     columns = where(is.numeric),
@@ -301,11 +316,18 @@ emissao_anual |>
     palette = "Reds"
   ) |>
   data_color(
+    columns = c(Etanol_Fossil, Gasolina_ou_Diesel_Fossil),
+    palette = "Purples"
+  ) |>
+  data_color(
     columns = CO2_Evitado_Usando_Etanol,
     palette = c("#e5f5e0", "#a1d99b", "#31a354")
   ) |>
   tab_source_note(
     source_note = "Os valores são MÉDIAS por categoria: a emissão média de CO₂ (g/km) de cada combustível foi multiplicada por 13.000 km e dividida por 1.000, resultando na média de kg de CO₂ por ano."
+  ) |>
+  tab_source_note(
+    source_note = "CO₂ total = emissão total no escapamento (inclui a parcela biogênica); CO₂ fóssil = apenas a parcela de origem fóssil. Por ser renovável, o etanol tem CO₂ fóssil ≈ 0; a gasolina brasileira (E30) já desconta os ~30% de etanol na coluna fóssil. Médias calculadas com os dados disponíveis."
   ) |>
   tab_source_note(
     source_note = "Fonte: INMETRO, Programa Brasileiro de Etiquetagem Veicular (PBEV 2026) — https://dados.inmetro.gov.br/programa_brasileiro_de_etiquetagem/VEICULOS_2026.csv"
@@ -322,13 +344,17 @@ emissao_anual |>
   )
 ```
 
-A tabela confirma a leitura dos gráficos: em **todas as categorias com dados de etanol**, a emissão média do etanol é menor que a da gasolina/diesel, ou seja, o CO₂ médio evitado é positivo. As maiores reduções aparecem nas categorias **Comercial** (cerca de 770 kg de CO₂/ano), **Fora de Estrada Grande** (≈ 529) e **Picape** (≈ 517), enquanto as menores ocorrem em **Utilitário Esportivo Grande** (≈ 44) e **Médio** (≈ 67).
+A tabela confirma a leitura dos gráficos: em **todas as categorias com dados de etanol**, a emissão média do etanol é menor que a da gasolina/diesel, ou seja, o CO₂ médio evitado é positivo. As maiores reduções aparecem nas categorias **Comercial** (cerca de 770 kg de CO₂/ano), **Fora de Estrada Grande** (≈ 529) e **Picape** (≈ 517), enquanto as menores ocorrem em **Utilitário Esportivo Grande** (≈ 44) e **Médio** (≈ 67). E se consideramos, as emissões fósseis, que seriam um novo carbono que será introduzido na atmosfera, as diferenças são enormes.
+
+![Ciclo do carbono: a queima de combustíveis fósseis devolve à atmosfera o carbono que estava "preso" no subsolo (carbono "novo"), enquanto o carbono do etanol circula no ciclo natural (fotossíntese ↔ respiração). | Autor: Bio-DiTRL (Universidade de Alberta), via Casa das Ciências.](images/ciclocarborno.png){width="65%" fig-align="center"}
 
 ## Conclusão
 
-A análise exploratória do PBEV 2026 sugere que o **etanol emite, em média, menos CO₂ por quilômetro do que a gasolina e o diesel em todas as categorias analisadas**, com ganhos ambientais maiores nas categorias mais pesadas (comerciais e picapes). Por outro lado, o **rendimento (km/l) do etanol é menor**, o que mostra que a vantagem ambiental por quilômetro precisa ser avaliada junto ao maior volume de combustível consumido.
+A análise exploratória do PBEV 2026 sugere que o **etanol emite, em média, menos CO₂ por quilômetro do que a gasolina e o diesel em todas as categorias analisadas**, e por ser um combustível renovável, também não emite nenhum CO₂ "novo" na atmosfera. Os ganhos ambientais são maiores nas categorias mais pesadas (comerciais e picapes). Por outro lado, o **rendimento (km/l) do etanol é menor**, o que mostra que a vantagem ambiental por quilômetro precisa ser avaliada junto ao maior volume de combustível consumido.
 
 Entre os **desafios** encontrados, destacam-se a grande quantidade de valores ausentes na emissão do etanol (393 das 639 versões não possuem esse dado, por não serem flex/etanol) e a presença de categorias com poucos veículos, o que limita comparações estatísticas mais robustas.
+
+Para **futuras análises**, poderiam ser consideradas também os valores dos combustíveis, permitindo avaliar o custo por quilômetro de cada categoria. E também, a comparação Ano a Ano das categorias, no diz que respeito a emissao de combustiveis fosseis, para comparar os efeitos das regulamentações.
 
 ## Uso de inteligência artificial
 
@@ -355,3 +381,15 @@ Para a elaboração deste relatório, foi utilizada a ferramenta de inteligênci
 17. SIMPLUS. *Injeção direta de combustível*. Disponível em: <https://blog.simplusbr.com/injecao-direta-de-combustivel/>
 18. BRASILDEFATO *Um ano após vazamento de óleo no Nordeste, nenhum responsável foi identificado*. Disponível em: <https://www.brasildefato.com.br/2020/08/30/um-ano-apos-vazamento-de-oleo-no-nordeste-nenhum-responsavel-foi-identificado/>
 19. G1GloboCE *Óleo derramado no Nordeste em 2019 viajou mais de 8 mil quilômetros e chegou à Flórida, diz pesquisa*. Disponível em : <https://g1.globo.com/ce/ceara/noticia/2026/01/31/oleo-derramado-no-nordeste-em-2019-viajou-mais-de-8-mil-quilometros-e-chegou-a-florida-diz-pesquisa.ghtml>
+20. NASA SCIENCE. *Climate Change*. Disponível em: <https://science.nasa.gov/climate-change/>
+21. NASA SCIENCE. *Earth Indicators*. Disponível em: <https://science.nasa.gov/earth/explore/earth-indicators/>
+22. NASA SCIENCE. *Earth Indicators: Carbon Dioxide*. Disponível em: <https://science.nasa.gov/earth/explore/earth-indicators/carbon-dioxide/>
+23. NASA SCIENCE. *Earth Indicators: Global Temperature*. Disponível em: <https://science.nasa.gov/earth/explore/earth-indicators/global-temperature/>
+24. NASA SCIENCE. *Earth Indicators: Methane*. Disponível em: <https://science.nasa.gov/earth/explore/earth-indicators/methane/>
+25. NASA EARTH OBSERVATORY. *Emissions from Fossil Fuels Continue to Rise*. Disponível em: <https://science.nasa.gov/earth/earth-observatory/emissions-from-fossil-fuels-continue-to-rise-152519/>
+26. NASA/JPL-CALTECH. *Orbiting Carbon Observatory-2 (OCO-2) — Science*. Disponível em: <https://ocov2.jpl.nasa.gov/science/>
+27. NASA/JPL-CALTECH. *Orbiting Carbon Observatory — Galeria de vídeos*. Disponível em: <https://ocov2.jpl.nasa.gov/galleries/videos/>
+28. NASA/JPL-CALTECH. *Infográfico: fontes e sumidouros de carbono (OCO-3)*. Disponível em: <https://ocov2.jpl.nasa.gov/media/images/oco-3-carbon-source-sink-infographic-2_03.origi.original.jpg>
+29. NASA SCIENTIFIC VISUALIZATION STUDIO. *CO₂ Explainer (vídeo)*. Disponível em: <https://assets.science.nasa.gov/content/dam/science/esd/eo/images/imagerecords/152000/152519/CO2explainer_svs_20211231.mp4>
+30. Blog.Bardahl *E30: Entenda o Aumento do Etanol na Gasolina e os Impactos no Seu Carro*. Disponível em: <https://blog.bardahl.com.br/e30-combustivel-impactos-motor-aumento-etanol/>
+31. BIO-DiTRL (Universidade de Alberta) / CASA DAS CIÊNCIAS. *Ciclo do Carbono* (recurso educativo). Disponível em: <https://www.casadasciencias.org/recurso/5878>
