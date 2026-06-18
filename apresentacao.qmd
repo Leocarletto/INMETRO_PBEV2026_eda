@@ -15,14 +15,38 @@ format:
     preview-links: true
     fig-align: center
     footer: "EDA PBEV 2026 — INMETRO"
----
+title-slide-attributes:
+  data-background-image: images/capa.jpg
 
+---
 ```{r}
 #| label: setup
 #| include: false
 
+pbev <- readRDS("pbev.rds")
+
 library(tidyverse)
+library(patchwork)
+library(formattable)
 library(gt)
+library(gtExtras)
+library(ggridges)
+library(wesanderson)
+library(ggiraph)   
+
+theme_set(
+  theme_ridges() +
+    theme(legend.position = "right")
+)
+
+cats <- sort(unique(pbev$categoria))
+minhas_cores <- wes_palette("Darjeeling2", n = length(cats), type = "continuous")
+names(minhas_cores) <- cats
+
+options(
+  ggplot2.discrete.fill   = unname(minhas_cores),
+  ggplot2.discrete.colour = unname(minhas_cores)
+)  
 
 pbev <- readRDS("pbev.rds") |>
   filter(emissao_gasolina_diesel_co2_total_g_km < 1000)
@@ -36,6 +60,66 @@ emissao_anual <- pbev |>
     Gasolina_ou_Diesel_Fossil = mean(emissao_gasolina_diesel_co2_fossil_total_g_km, na.rm = TRUE) * 13000 / 1000
   ) |>
   mutate(CO2_Evitado_Usando_Etanol = Gasolina_ou_Diesel - Etanol)
+
+pbev <- pbev |>
+  filter(emissao_gasolina_diesel_co2_total_g_km < 1000)
+
+resumo <- pbev |>
+  group_by(categoria) |>
+  summarise(across(
+    c(emissao_etanol_co2_total_g_km,
+      emissao_gasolina_diesel_co2_total_g_km,
+      etanol_km_por_litro_combinado,
+      diesel_ou_gasolina_km_por_litro_combinado),
+    \(x) mean(x, na.rm = TRUE)
+  ))
+
+emissao_anual <- pbev |>
+  group_by(categoria) |>
+  summarise(
+    n = n(),
+    Etanol = mean(emissao_etanol_co2_total_g_km, na.rm = TRUE) * 13000 / 1000,
+    Etanol_Fossil = mean(emissao_etanol_co2_fossil_total_g_km, na.rm = TRUE) * 13000 / 1000,
+    Gasolina_ou_Diesel = mean(emissao_gasolina_diesel_co2_total_g_km, na.rm = TRUE) * 13000 / 1000,
+    Gasolina_ou_Diesel_Fossil = mean(emissao_gasolina_diesel_co2_fossil_total_g_km, na.rm = TRUE) * 13000 / 1000
+  ) |>
+  mutate(
+    CO2_Evitado_Usando_Etanol = Gasolina_ou_Diesel - Etanol
+  )
+emissao_long <- pbev |>
+  select(categoria,
+         Etanol = emissao_etanol_co2_total_g_km,
+         `Gasolina/Diesel` = emissao_gasolina_diesel_co2_total_g_km) |>
+  pivot_longer(cols = c(Etanol, `Gasolina/Diesel`),
+               names_to = "combustivel", values_to = "emissao") |>
+  mutate(combustivel = factor(combustivel, levels = c("Etanol", "Gasolina/Diesel")))
+
+p_base <- ggplot(emissao_long, aes(x = emissao, y = categoria, fill = categoria)) +
+  geom_density_ridges(scale = 2.5, rel_min_height = 0.01) +
+  facet_wrap(~ combustivel, scales = "free_x") +
+  scale_y_discrete(limits = cats, drop = FALSE)
+
+fuels <- c("Etanol", "Gasolina/Diesel")
+ridge_geo <- ggplot_build(p_base)$data[[1]] |>
+  as_tibble() |>
+  filter(height >= min_height) |>
+  transmute(
+    x, ymin, ymax,
+    combustivel = factor(fuels[as.integer(PANEL)], levels = fuels),
+    categoria   = factor(cats[group], levels = cats),
+    grp         = interaction(PANEL, group, drop = TRUE)
+  ) |>
+  arrange(combustivel, desc(as.integer(categoria)), x)
+
+resumo_tip <- emissao_long |>
+  filter(!is.na(emissao)) |>
+  group_by(combustivel, categoria) |>
+  summarise(media = mean(emissao), n = n(), .groups = "drop") |>
+  mutate(tip = paste0(categoria,
+                      "\nMédia: ", round(media, 1), " g/km",
+                      "\nn = ", n))
+
+
 ```
 
 ## O desafio dos combustíveis fósseis {.smaller}
@@ -49,8 +133,12 @@ Principais impactos:
 - Poluição do ar e **gases de efeito estufa**
 - Chuvas ácidas
 - **Vazamentos de óleo e petróleo** que contaminam mares e oceanos
+- Doenças dos mais diversos tipos causadas por derivados de petróleo 
+- Aquecimento global
+- Mudanças climáticas
 
-Esses impactos são evidenciados no relatório [*Do Berço ao Túmulo: o impacto dos combustíveis fósseis na saúde*](https://climateandhealthalliance.org/wp-content/uploads/2025/09/C2G-Report-low-res-Portuguese.pdf), da [Global Climate & Health Alliance](https://climateandhealthalliance.org/).
+Esses impactos são evidenciados no relatório [*Do Berço ao Túmulo: o impacto dos combustíveis fósseis na saúde*](https://climateandhealthalliance.org/wp-content/uploads/2025/09/C2G-Report-low-res-Portuguese.pdf), da [Global Climate & Health Alliance](https://climateandhealthalliance.org/). E também nesses relatórios tecnicos da Nasa:["Emissao de poluentes fosseis continuam a crescer"](https://science.nasa.gov/earth/earth-observatory/emissions-from-fossil-fuels-continue-to-rise-152519/){preview-link="false" target="_blank"} E ["Temperatura Global"](https://science.nasa.gov/earth/explore/earth-indicators/global-temperature/){preview-link="false" target="_blank"}
+
 :::
 
 ::: {.column width="50%"}
@@ -82,6 +170,8 @@ O [**Proconve**](https://www.gov.br/ibama/pt-br/assuntos/emissoes-e-residuos/emi
 :::
 :::
 :::::
+
+Mesmo com a frota saltando de **13 milhões** (1986) para **129 milhões** de veículos, a emissão de CO caiu de **702 → 5,2 kg por veículo/ano** e de **9.126 → 670,8 mil toneladas** no total da frota anual.
 
 O catalisador converte o **CO (tóxico)** em **CO₂** — poluente, mas não tóxico da mesma forma. A adesão ao **etanol** é mais um passo nessa trajetória de melhoria.
 
@@ -118,7 +208,40 @@ O catalisador converte o **CO (tóxico)** em **CO₂** — poluente, mas não t�
 
 *Objetivo: estudar a **frequência** das emissões de CO₂ por categoria, separando etanol de gasolina/diesel.*
 
-![](images/grafico_emissao.png){.framed fig-align="center" width="80%"}
+```{r}
+#| echo: false
+ridge_geo <- ridge_geo |>
+  left_join(resumo_tip, by = c("combustivel", "categoria"))
+
+g_emissao <- ggplot(ridge_geo,
+                    aes(x = x, ymin = ymin, ymax = ymax, group = grp,
+                        fill = categoria, tooltip = tip, data_id = categoria)) +
+  geom_ribbon_interactive(color = "black", linewidth = 0.4) +
+  facet_wrap(~ combustivel, scales = "free_x") +
+  scale_fill_manual(values = minhas_cores) +
+  scale_y_continuous(breaks = seq_along(cats), labels = cats,
+                     expand = expansion(mult = c(0.01, 0.05))) +
+  scale_x_continuous(breaks = scales::breaks_pretty(n = 4)) +
+  coord_cartesian(xlim = c(0, NA)) +
+  labs(x = NULL, y = NULL,
+       title = "Densidade da emissão de CO2 (g/km rodado)") +
+  theme(axis.text = element_text(size = 9),
+        plot.title = element_text(size = 13),
+        strip.text = element_text(size = 12, face = "bold"),
+        legend.position = "none")
+
+girafe(
+  ggobj = g_emissao, width_svg = 9, height_svg = 4,
+  options = list(
+    opts_hover(css = "stroke:black;stroke-width:1.2px;"),
+    opts_hover_inv(css = "opacity:0.3;"),
+    opts_zoom(min = 1, max = 4),
+    opts_sizing(rescale = TRUE, width = 1),
+    opts_toolbar(saveaspng = FALSE)
+  )
+)
+
+```
 
 > Na maioria das categorias, a gasolina/diesel se concentra em **patamares mais altos** → o etanol tende a **poluir menos por km**.
 
@@ -126,7 +249,69 @@ O catalisador converte o **CO (tóxico)** em **CO₂** — poluente, mas não t�
 
 *Objetivo: comparar o **consumo (km/l)** entre categorias (mín. 3 veículos; ausentes removidos).*
 
-![](images/grafico_consumo.png){.framed fig-align="center" width="80%"}
+```{r}
+#| echo: false
+
+dados_diesel <- pbev |>
+  filter(!is.na(diesel_ou_gasolina_km_por_litro_combinado),
+         diesel_ou_gasolina_km_por_litro_combinado > 0) |>
+  group_by(categoria) |>
+  filter(n() >= 3) |>
+  mutate(tip = paste0(categoria,
+                      "\nMediana: ", round(median(diesel_ou_gasolina_km_por_litro_combinado), 1), " km/l",
+                      "\nn = ", n())) |>
+  ungroup() |>
+  droplevels()
+
+dados_etanol <- pbev |>
+  filter(!is.na(etanol_km_por_litro_combinado),
+         etanol_km_por_litro_combinado > 0) |>
+  group_by(categoria) |>
+  filter(n() >= 3) |>
+  mutate(tip = paste0(categoria,
+                      "\nMediana: ", round(median(etanol_km_por_litro_combinado), 1), " km/l",
+                      "\nn = ", n())) |>
+  ungroup() |>
+  droplevels()
+
+
+consumo_long <- bind_rows(
+  dados_etanol |>
+    transmute(categoria, consumo = etanol_km_por_litro_combinado,
+              tip, combustivel = "Etanol"),
+  dados_diesel |>
+    transmute(categoria, consumo = diesel_ou_gasolina_km_por_litro_combinado,
+              tip, combustivel = "Gasolina/Diesel")
+) |>
+  mutate(
+    combustivel = factor(combustivel, levels = c("Etanol", "Gasolina/Diesel")),
+    categoria   = factor(categoria, levels = sort(unique(as.character(categoria))))
+  )
+
+g_consumo <- ggplot(consumo_long,
+                    aes(x = consumo, y = categoria, fill = categoria,
+                        tooltip = tip, data_id = categoria)) +
+  geom_boxplot_interactive(color = "black", width = 0.6) +
+  facet_wrap(~ combustivel, scales = "free_x") +
+  scale_fill_manual(values = minhas_cores) +
+  labs(x = "Consumo (km/l)", y = NULL,
+       title = "Consumo de combustível (km/l) por categoria") +
+  theme(axis.text = element_text(size = 9),
+        plot.title = element_text(size = 13),
+        strip.text = element_text(size = 12, face = "bold"),
+        legend.position = "none")
+
+girafe(
+  ggobj = g_consumo, width_svg = 9, height_svg = 4,
+  options = list(
+    opts_hover(css = "stroke:black;stroke-width:1.2px;"),
+    opts_hover_inv(css = "opacity:0.3;"),
+    opts_zoom(min = 1, max = 4),
+    opts_sizing(rescale = TRUE, width = 1),
+    opts_toolbar(saveaspng = FALSE)
+  )
+)
+```
 
 > Etanol ~**5,7 a 11,9 km/l** · Gasolina/diesel ~**4,7 a 17,2 km/l** → com etanol percorre-se **menos km por litro**.
 
@@ -148,9 +333,9 @@ O **etanol** é um biocombustível de **matéria-prima vegetal**, produzido pela
 :::
 :::::
 
-## Emissão média anual de CO₂ por categoria {.smaller .scrollable}
+Essa analise do ciclo pode ser melhor compreendido com esse exemplo do "Indicadores da Terra" da Nasa [https://science.nasa.gov/earth/explore/earth-indicators/carbon-dioxide/](https://science.nasa.gov/earth/explore/earth-indicators/carbon-dioxide/){preview-link="false" target="_blank"}
 
-*Médias por categoria, em kg de CO₂/ano (base de 13.000 km). **Total** inclui a parcela biogênica; **fóssil** é só a parcela de origem fóssil.*
+## Emissão média anual de CO₂ por categoria {.smaller}
 
 ```{r}
 #| label: tabela-gt
@@ -164,6 +349,7 @@ emissao_anual |>
   ) |>
   cols_label(
     categoria                 = "Categoria",
+    n                         = "Veículos (n)",
     Etanol                    = "Total (kg/ano)",
     Etanol_Fossil             = "Fóssil (kg/ano)",
     Gasolina_ou_Diesel        = "Total (kg/ano)",
@@ -176,6 +362,7 @@ emissao_anual |>
               columns = c(Gasolina_ou_Diesel, Gasolina_ou_Diesel_Fossil)) |>
   fmt_number(columns = where(is.numeric), decimals = 1,
              dec_mark = ",", sep_mark = ".") |>
+  fmt_integer(columns = n) |>
   sub_missing(columns = everything(), missing_text = "-") |>
   data_color(columns = c(Etanol, Gasolina_ou_Diesel), palette = "Reds") |>
   data_color(columns = c(Etanol_Fossil, Gasolina_ou_Diesel_Fossil), palette = "Purples") |>
@@ -183,12 +370,12 @@ emissao_anual |>
              palette = c("#e5f5e0", "#a1d99b", "#31a354")) |>
   tab_source_note("CO₂ total inclui a parcela biogênica; CO₂ fóssil é só a de origem fóssil. O etanol tem fóssil ≈ 0; a gasolina E30 já desconta os ~30% de etanol.") |>
   tab_source_note("Fonte: INMETRO — Programa Brasileiro de Etiquetagem Veicular (PBEV 2026).") |>
-  tab_options(table.font.size = px(15), data_row.padding = px(2),
-              column_labels.padding = px(2), heading.padding = px(2),
+  tab_options(table.font.size = px(11), data_row.padding = px(1),
+              column_labels.padding = px(1), heading.padding = px(1),
               table.width = pct(100))
 ```
 
-> Em **todas** as categorias com etanol, o CO₂ evitado é **positivo**. Maiores ganhos: **Comercial** (~770 kg), **Fora de Estrada Grande** (~529) e **Picape** (~517). Na base **fóssil**, as diferenças são ainda maiores — o etanol emite **≈ 0** de CO₂ fóssil.
+[**Total analisado:** `r sum(emissao_anual$n)` versões · **emissão média anual (gasolina/diesel):** `r format(round(mean(emissao_anual$Gasolina_ou_Diesel, na.rm = TRUE)), big.mark = ".")` kg/ano · **CO₂ médio evitado com etanol:** `r format(round(mean(emissao_anual$CO2_Evitado_Usando_Etanol, na.rm = TRUE)), big.mark = ".")` kg/ano · em **todas** as categorias com etanol o CO₂ evitado é **positivo**.]{style="font-size:0.7em;"}
 
 ## Conclusões {.smaller}
 
@@ -211,24 +398,53 @@ Foi utilizada a ferramenta **Claude (Opus 4.8)** para:
 - dispor os gráficos de *density ridges* e *boxplot* lado a lado mantendo a interatividade (**ggiraph**);
 - ajustar o posicionamento dos elementos.
 
-## Referências principais {.smaller}
+## Referências {.smaller}
 
 ::: {.refs}
-- INMETRO. [**Programa Brasileiro de Etiquetagem Veicular (PBEV 2026)**](https://www.gov.br/inmetro/pt-br/assuntos/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular) — dados abertos.
-- IBAMA. [*Pioneiro na América Latina, programa de controle da poluição veicular completa 40 anos*](https://www.gov.br/ibama/pt-br/assuntos/noticias/2026/pioneiro-na-america-latina-programa-de-controle-da-poluicao-veicular-completa-40-anos).
-- GLOBAL CLIMATE & HEALTH ALLIANCE. [*Do Berço ao Túmulo: o impacto dos combustíveis fósseis na saúde*](https://climateandhealthalliance.org/).
-- NASA. [*Climate Change*](https://science.nasa.gov/climate-change/) · [*Earth Indicators*](https://science.nasa.gov/earth/explore/earth-indicators/) · [*Carbon Dioxide*](https://science.nasa.gov/earth/explore/earth-indicators/carbon-dioxide/) · [*Emissions from Fossil Fuels Continue to Rise*](https://science.nasa.gov/earth/earth-observatory/emissions-from-fossil-fuels-continue-to-rise-152519/).
-- BIO-DiTRL / [CASA DAS CIÊNCIAS. *Ciclo do Carbono*](https://www.casadasciencias.org/recurso/5878). · [RAÍZEN. *Etanol*](https://www.raizen.com.br/blog/etanol).
+1. BRASIL 247. *Impacto ambiental e social do óleo vazado ainda é incalculável*. Disponível em: <https://www.brasil247.com/brasil/impacto-ambiental-e-social-do-oleo-vazado-ainda-e-incalculavel-afirmam-entidades>
+2. PESQUISA FAPESP. *Mais extenso derramamento de petróleo ocorrido no país causa forte impacto na biodiversidade marinha*. Disponível em: <https://revistapesquisa.fapesp.br/mais-extenso-derramamento-de-petroleo-ocorrido-no-pais-causa-forte-impacto-na-biodiversidade-marinha/>
+3. CETESB. *Emissão veicular*. Disponível em: <https://www.cetesb.sp.gov.br/cetesb/qualidade_ambiental/emissao_veicular>
+4. CETESB. *PROCONVE*. Disponível em: <https://www.cetesb.sp.gov.br/cetesb/qualidade_ambiental/emissao_veicular/proconve>
+5. RAÍZEN. *Etanol*. Disponível em: <https://www.raizen.com.br/blog/etanol>
+6. EPE. *Biocombustíveis x MDL*. Disponível em: <https://www.epe.gov.br/sites-pt/publicacoes-dados-abertos/publicacoes/PublicacoesArquivos/publicacao-250/topico-304/EPE%20-%202%C2%BA%20Biocombust%C3%ADveis%20x%20MDL%5B1%5D.pdf>
+7. OBSERVATÓRIO DO PETRÓLEO. *Conheça alguns impactos ambientais causados pelo uso de combustíveis fósseis*. Disponível em: <https://observatoriodopetroleo.org/conheca-alguns-impactos-ambientais-causados-pelo-uso-de-combustiveis-fosseis/>
+8. SUNNE. *Saiba os impactos dos combustíveis fósseis*. Disponível em: <https://sunne.com.br/blog/saiba-os-impactos-dos-combustiveis-fosseis/>
+9. CENTRO PAULA SOUZA (RIC). *Impactos causados pelo uso dos combustíveis fósseis*. Disponível em: [Impactos causados pelo uso dos combustíveis fósseis (PDF).](https://ric.cps.sp.gov.br/bitstream/123456789/6774/1/tecnicoemqu%C3%ADmica_2021_2_marcosoliveira_impactoscausadospelousodoscombust%C3%ADveisf%C3%B3sseis.pdf)
 
-A lista completa de referências está no relatório técnico.
+10. MINISTÉRIO DO MEIO AMBIENTE. *Emissões veiculares*. Disponível em: <https://antigo.mma.gov.br/mma-em-numeros/emissoes-veiculares.html>
+11. SECOM UFG. *Catástrofe ambiental: petróleo no mar*. Disponível em: <https://secom.ufg.br/n/33974-catastrofe-ambiental-petroleo-no-mar>
+12. ANFAVEA. *O que é o PROCONVE*. Disponível em: <https://anfavea.com.br/site/o-que-e-o-proconve/>
+13. IBAMA. *Emissões de poluentes atmosféricos (Dados Abertos)*. Disponível em: <https://dadosabertos.ibama.gov.br/dataset/emissoes-de-poluentes-atmosfericos>
+14. IBAMA. *Pioneiro na América Latina, programa de controle da poluição veicular completa 40 anos*. Disponível em: <https://www.gov.br/ibama/pt-br/assuntos/noticias/2026/pioneiro-na-america-latina-programa-de-controle-da-poluicao-veicular-completa-40-anos>
+15. UFOP. *Redução com monóxido de carbono — Parte 1*. Disponível em: <https://professor.ufop.br/sites/default/files/victor/files/reducao_com_monoxido_de_carbono_-_parte_1.pdf>
+16. TOTALENERGIES. *Catalisador automotivo: o que é e como funciona*. Disponível em: <https://totalenergies.com.br/catalisador-automotivo-o-que-e-e-como-funciona>
+17. SIMPLUS. *Injeção direta de combustível*. Disponível em: <https://blog.simplusbr.com/injecao-direta-de-combustivel/>
+18. BRASILDEFATO *Um ano após vazamento de óleo no Nordeste, nenhum responsável foi identificado*. Disponível em: <https://www.brasildefato.com.br/2020/08/30/um-ano-apos-vazamento-de-oleo-no-nordeste-nenhum-responsavel-foi-identificado/>
+19. G1GloboCE *Óleo derramado no Nordeste em 2019 viajou mais de 8 mil quilômetros e chegou à Flórida, diz pesquisa*. Disponível em : <https://g1.globo.com/ce/ceara/noticia/2026/01/31/oleo-derramado-no-nordeste-em-2019-viajou-mais-de-8-mil-quilometros-e-chegou-a-florida-diz-pesquisa.ghtml>
+20. NASA SCIENCE. *Climate Change*. Disponível em: <https://science.nasa.gov/climate-change/>
+21. NASA SCIENCE. *Earth Indicators*. Disponível em: <https://science.nasa.gov/earth/explore/earth-indicators/>
+22. NASA SCIENCE. *Earth Indicators: Carbon Dioxide*. Disponível em: <https://science.nasa.gov/earth/explore/earth-indicators/carbon-dioxide/>
+23. NASA SCIENCE. *Earth Indicators: Global Temperature*. Disponível em: <https://science.nasa.gov/earth/explore/earth-indicators/global-temperature/>
+24. NASA SCIENCE. *Earth Indicators: Methane*. Disponível em: <https://science.nasa.gov/earth/explore/earth-indicators/methane/>
+25. NASA EARTH OBSERVATORY. *Emissions from Fossil Fuels Continue to Rise*. Disponível em: <https://science.nasa.gov/earth/earth-observatory/emissions-from-fossil-fuels-continue-to-rise-152519/>
+26. NASA/JPL-CALTECH. *Orbiting Carbon Observatory-2 (OCO-2) — Science*. Disponível em: <https://ocov2.jpl.nasa.gov/science/>
+27. NASA/JPL-CALTECH. *Orbiting Carbon Observatory — Galeria de vídeos*. Disponível em: <https://ocov2.jpl.nasa.gov/galleries/videos/>
+28. NASA/JPL-CALTECH. *Infográfico: fontes e sumidouros de carbono (OCO-3)*. Disponível em: <https://ocov2.jpl.nasa.gov/media/images/oco-3-carbon-source-sink-infographic-2_03.origi.original.jpg>
+29. NASA SCIENTIFIC VISUALIZATION STUDIO. *CO₂ Explainer (vídeo)*. Disponível em: <https://assets.science.nasa.gov/content/dam/science/esd/eo/images/imagerecords/152000/152519/CO2explainer_svs_20211231.mp4>
+30. Blog.Bardahl *E30: Entenda o Aumento do Etanol na Gasolina e os Impactos no Seu Carro*. Disponível em: <https://blog.bardahl.com.br/e30-combustivel-impactos-motor-aumento-etanol/>
+31. BIO-DiTRL (Universidade de Alberta) / CASA DAS CIÊNCIAS. *Ciclo do Carbono* (recurso educativo). Disponível em: <https://www.casadasciencias.org/recurso/5878>
+32. NASA CLIMATE CHANGE (ARCHIVED). *Are efforts to reduce carbon dioxide emissions working? How would we know?* (vídeo) — frames utilizados na capa e no encerramento. Disponível no YouTube.
+
 :::
 
-## {background-color="#2B2423"}
+## {background-image="images/encerramento.jpg" background-size="cover" background-position="center"}
 
-::: {style="text-align:center; color:#FBF8F4; margin-top:1.2em;"}
-[Obrigado!]{style="font-size:2.2em; font-weight:700;"}
+::: {style="text-align:center;"}
+[Obrigado!]{style="font-size:2.2em; font-weight:700; color:#ffffff; text-shadow:0 2px 14px rgba(0,0,0,0.95);"}
 
-[O etanol emite, em média, **menos CO₂ por km** — e praticamente **nada de CO₂ fóssil** — em todas as categorias analisadas.]{style="display:block; font-size:0.95em; margin-top:0.4em;"}
+[O etanol emite, em média, **menos CO₂ por km** — e praticamente **nada de CO₂ fóssil**.]{style="display:block; color:#ffffff; font-size:0.9em; margin-top:0.4em; text-shadow:0 2px 12px rgba(0,0,0,0.95);"}
 
-[Leonardo Carletto · EDA do PBEV 2026 · INMETRO]{style="display:block; color:#E1955F; font-size:0.85em; margin-top:0.6em;"}
+[Leonardo Carletto · EDA do PBEV 2026 · INMETRO]{style="display:block; color:#FBE3CF; font-size:0.8em; margin-top:0.5em; text-shadow:0 1px 10px rgba(0,0,0,0.95);"}
+
+[Capa e encerramento: frames do vídeo *Are efforts to reduce carbon dioxide emissions working? How would we know?* — ARCHIVED · NASA Climate Change.]{style="display:block; font-size:0.42em; color:#f0e9e3; margin-top:1.4em; text-shadow:0 1px 8px rgba(0,0,0,0.95);"}
 :::

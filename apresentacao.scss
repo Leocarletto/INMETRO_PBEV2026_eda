@@ -63,3 +63,12 @@ $link-color: #E1955F !default;
 .reveal code { background: #000 !important; color: #eee !important;
   padding: 2px 4px !important; border-radius: 4px !important; }
 .reveal code span.sc, .reveal code span.op, .reveal code span.kw { color: #70c0b2 !important; }
+
+// Capa sobre imagem (frame do vídeo da NASA): texto branco com sombra,
+// SEM escurecimento de fundo — igual ao encerramento.
+#title-slide .title    { color: #ffffff !important; text-shadow: 0 2px 14px rgba(0,0,0,0.95); }
+#title-slide .subtitle { color: #FBE3CF !important; font-style: italic; text-shadow: 0 2px 12px rgba(0,0,0,0.95); }
+#title-slide .quarto-title-authors, #title-slide .date { color: #f3ece6 !important; text-shadow: 0 1px 10px rgba(0,0,0,0.95); }
+
+// Crédito pequeno (capa/encerramento)
+.credito { font-size: 0.42em; color: #f0e9e3; text-shadow: 0 1px 6px rgba(0,0,0,0.9); }
