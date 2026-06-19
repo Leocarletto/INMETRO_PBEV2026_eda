@@ -349,7 +349,6 @@ emissao_anual |>
   ) |>
   cols_label(
     categoria                 = "Categoria",
-    n                         = "Veículos (n)",
     Etanol                    = "Total (kg/ano)",
     Etanol_Fossil             = "Fóssil (kg/ano)",
     Gasolina_ou_Diesel        = "Total (kg/ano)",
@@ -362,7 +361,6 @@ emissao_anual |>
               columns = c(Gasolina_ou_Diesel, Gasolina_ou_Diesel_Fossil)) |>
   fmt_number(columns = where(is.numeric), decimals = 1,
              dec_mark = ",", sep_mark = ".") |>
-  fmt_integer(columns = n) |>
   sub_missing(columns = everything(), missing_text = "-") |>
   data_color(columns = c(Etanol, Gasolina_ou_Diesel), palette = "Reds") |>
   data_color(columns = c(Etanol_Fossil, Gasolina_ou_Diesel_Fossil), palette = "Purples") |>
