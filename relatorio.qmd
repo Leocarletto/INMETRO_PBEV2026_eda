@@ -3,9 +3,9 @@ title: "Como os biocombustíveis ajudam a diminuir a poluição"
 author: "Leonardo Carletto"
 date: today
 lang: pt-br
-bibliography: [references.bib, packages.bib]
+bibliography: [render/references.bib, render/packages.bib]
 link-citations: TRUE
-csl: abnt.csl
+csl: render/abnt.csl
 nocite: |
   @R-base
   @R-tidyverse
@@ -19,13 +19,13 @@ nocite: |
 number-sections: true
 format:
   html:
-    theme: [litera, styles.scss]
-    highlight-style: tomorrow-night-bright-r-classic.theme
+    theme: [litera, render/styles.scss]
+    highlight-style: render/tomorrow-night-bright-r-classic.theme
     toc: true
     toc-location: right
     code-fold: false
     embed-resources: true
-    include-after-body: footer.html
+    include-after-body: render/footer.html
 ---
 
 

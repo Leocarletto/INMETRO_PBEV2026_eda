@@ -6,7 +6,7 @@ date: today
 lang: pt-br
 format:
   revealjs:
-    theme: [default, apresentacao.scss]
+    theme: [default, render/apresentacao.scss]
     slide-number: c/t
     show-slide-number: all
     transition: slide
@@ -327,13 +327,12 @@ A vantagem ambiental por km convive com um **consumo maior** de combustível. A 
 
 O **ciclo do carbono**: a queima de **combustíveis fósseis** devolve à atmosfera o carbono que estava "preso" no subsolo (carbono "novo"), enquanto o carbono do **etanol** circula no ciclo natural (fotossíntese <-> respiração). 
 
-Uma melhor visualização de como a problemática da emissao do co2 fóssil impacta o planenta, pode ser observada nos **dados de monitoramento atmosférico da NASA**, que registram o aumento contínuo das concentrações de CO2 e metano e da temperatura global ao longo das décadas [https://science.nasa.gov/earth/explore/earth-indicators/carbon-dioxide/](https://science.nasa.gov/earth/explore/earth-indicators/carbon-dioxide/){preview-link="false" target="_blank"}
 
 :::
 
 ::: {.column width="42%"}
 ```{=html}
-<iframe src="ciclo_do_carbono_inline.html" width="100%" height="640" style="border:0"></iframe>
+<iframe src="render/ciclo_do_carbono_inline.html" width="100%" height="640" style="border:0"></iframe>
 ```
 
 
@@ -378,8 +377,9 @@ emissao_anual |>
               column_labels.padding = px(1), heading.padding = px(1),
               table.width = pct(100))
 ```
-
 [**Total analisado:** `r sum(emissao_anual$n)` versões · **emissão média anual (gasolina/diesel):** `r format(round(mean(emissao_anual$Gasolina_ou_Diesel, na.rm = TRUE)), big.mark = ".")` kg/ano · **CO2 médio evitado com etanol:** `r format(round(mean(emissao_anual$CO2_Evitado_Usando_Etanol, na.rm = TRUE)), big.mark = ".")` kg/ano · em **todas** as categorias com etanol o CO2 evitado é **positivo**.]{style="font-size:0.7em;"}
+
+Uma melhor visualização de como a problemática da emissao do co2 fóssil impacta o planeta, pode ser observada nos **dados de monitoramento atmosférico da NASA**, que registram o aumento contínuo das concentrações de CO2, metano e da temperatura global ao longo das décadas [https://science.nasa.gov/earth/explore/earth-indicators/carbon-dioxide/](https://science.nasa.gov/earth/explore/earth-indicators/carbon-dioxide/){preview-link="false" target="_blank"}
 
 ## Conclusões {.smaller}
 
@@ -406,27 +406,48 @@ Foi utilizada a ferramenta **Claude (Opus 4.8)** para:
 
 ::: {.refs}
 
-BRASIL 247. Impacto ambiental e social do óleo vazado ainda é incalculável. Brasil 247, 2019. Disponível em: <https://www.brasil247.com/brasil/impacto-ambiental-e-social-do-oleo-vazado-ainda-e-incalculavel-afirmam-entidades>
-GLOBAL CLIMATE AND HEALTH ALLIANCE. Do Berço ao Túmulo: o impacto dos combustíveis fósseis na saúde. Global Climate & Health Alliance, 2025. Disponível em: <https://climateandhealthalliance.org/wp-content/uploads/2025/09/C2G-Report-low-res-Portuguese.pdf>
-GOHEL, David; SKINTZOS, Panagiotis. ggiraph: Make ’ggplot2’ Graphics Interactive. [S.l.: S.n.].
-IANNONE, Richard et al. gt: Easily Create Presentation-Ready Display Tables. [S.l.: S.n.].
-IBAMA. Programa de controle de emissões veiculares (Proconve). Companhia Ambiental do Estado de São Paulo, 2022. Disponível em: <https://www.gov.br/ibama/pt-br/assuntos/emissoes-e-residuos/emissoes/programa-de-controle-de-emissoes-veiculares-proconve>
-IBAMA. Pioneiro na América Latina, programa de controle da poluição veicular completa 40 anos. Instituto Brasileiro do Meio Ambiente e dos Recursos Naturais Renováveis, 2026. Disponível em: <https://www.gov.br/ibama/pt-br/assuntos/noticias/2026/pioneiro-na-america-latina-programa-de-controle-da-poluicao-veicular-completa-40-anos>
-INMETRO. PBEV - Programa Brasileiro de Etiquetagem Veicular. INMETRO, 2026. Disponível em: <https://dados.inmetro.gov.br/programa_brasileiro_de_etiquetagem/VEICULOS_2026.csv>
-MINISTÉRIO DE MINAS E ENERGIA. Programa Nacional do Álcool completa 49 anos com impactos positivos na economia e no meio ambiente., 2014. Disponível em: <https://www.gov.br/mme/pt-br/assuntos/noticias/programa-nacional-do-alcool-completa-49-anos-com-impactos-positivos-na-economia-e-no-meio-ambiente>. Acesso em: 20 jun. 2026
-MINISTÉRIO DE MINAS E ENERGIA. E30 e B15 entram em vigor em todo o Brasil. GOV.BR, MME, 2025. Disponível em: <https://www.gov.br/mme/pt-br/assuntos/noticias/2023-2026/e30-e-b15-entram-em-vigor-em-todo-o-brasil>
-MOCK, Thomas. gtExtras: Extending ’gt’ for Beautiful HTML Tables. [S.l.: S.n.].
-NASA SCIENCE EARTH INDICATORS. Earth Indicators. NASA, 2026. Disponível em: <https://science.nasa.gov/earth/explore/earth-indicators/>
-PEDERSEN, Thomas Lin. patchwork: The Composer of Plots. [S.l.: S.n.].
-R CORE TEAM. R: A Language and Environment for Statistical Computing. Vienna, Austria: R Foundation for Statistical Computing, 2026.
-RAÍZEN. Etanol. Raízen, 2022. Disponível em: <https://www.raizen.com.br/blog/etanol>
-RAM, Karthik; WICKHAM, Hadley. wesanderson: A Wes Anderson Palette Generator. [S.l.: S.n.].
-REN, Kun; RUSSELL, Kenton. formattable: Create ’Formattable’ Data Structures. [S.l.: S.n.].
-ROGÉRIO, Carvalho. PBEV — Programa Brasileiro de Etiquetagem Veicular. PETROBRAS-CENPES/CONPET, INEE, 2025. Disponível em: <https://inee.org.br/wp-content/uploads/2025/02/RogerioCarvalho_CENPES.pdf>
-SUNNE. Saiba os impactos dos combustíveis fósseis. Sunne, 2024. Disponível em: <https://sunne.com.br/blog/saiba-os-impactos-dos-combustiveis-fosseis/>
-TOTALENERGIES. Catalisador automotivo: o que é e como funciona. TotalEnergies, 2023. Disponível em: <https://totalenergies.com.br/catalisador-automotivo-o-que-e-e-como-funciona>
-WICKHAM, Hadley et al. Welcome to the tidyverse. Journal of Open Source Software, v. 4, n. 43, p. 1686, 2019.
-WILKE, Claus O. ggridges: Ridgeline Plots in ’ggplot2’. [S.l.: S.n.].
+BRASIL 247. Impacto ambiental e social do óleo vazado ainda é incalculável. Brasil 247, 2019. Disponível em: <https://www.brasil247.com/brasil/impacto-ambiental-e-social-do-oleo-vazado-ainda-e-incalculavel-afirmam-entidades> 
+
+GLOBAL CLIMATE AND HEALTH ALLIANCE. Do Berço ao Túmulo: o impacto dos combustíveis fósseis na saúde. Global Climate & Health Alliance, 2025. Disponível em: <https://climateandhealthalliance.org/wp-content/uploads/2025/09/C2G-Report-low-res-Portuguese.pdf> 
+
+GOHEL, David; SKINTZOS, Panagiotis. ggiraph: Make ’ggplot2’ Graphics Interactive. [S.l.: S.n.]. 
+
+IANNONE, Richard et al. gt: Easily Create Presentation-Ready Display Tables. [S.l.: S.n.].  
+
+IBAMA. Programa de controle de emissões veiculares (Proconve). Companhia Ambiental do Estado de São Paulo, 2022. Disponível em: <https://www.gov.br/ibama/pt-br/assuntos/emissoes-e-residuos/emissoes/programa-de-controle-de-emissoes-veiculares-proconve>  
+
+IBAMA. Pioneiro na América Latina, programa de controle da poluição veicular completa 40 anos. Instituto Brasileiro do Meio Ambiente e dos Recursos Naturais Renováveis, 2026. Disponível em: <https://www.gov.br/ibama/pt-br/assuntos/noticias/2026/pioneiro-na-america-latina-programa-de-controle-da-poluicao-veicular-completa-40-anos>  
+
+INMETRO. PBEV - Programa Brasileiro de Etiquetagem Veicular. INMETRO, 2026. Disponível em: <https://dados.inmetro.gov.br/programa_brasileiro_de_etiquetagem/VEICULOS_2026.csv> 
+
+MINISTÉRIO DE MINAS E ENERGIA. Programa Nacional do Álcool completa 49 anos com impactos positivos na economia e no meio ambiente., 2014. Disponível em: <https://www.gov.br/mme/pt-br/assuntos/noticias/programa-nacional-do-alcool-completa-49-anos-com-impactos-positivos-na-economia-e-no-meio-ambiente>. Acesso em: 20 jun. 2026 
+
+MINISTÉRIO DE MINAS E ENERGIA. E30 e B15 entram em vigor em todo o Brasil. GOV.BR, MME, 2025. Disponível em: <https://www.gov.br/mme/pt-br/assuntos/noticias/2023-2026/e30-e-b15-entram-em-vigor-em-todo-o-brasil> 
+
+MOCK, Thomas. gtExtras: Extending ’gt’ for Beautiful HTML Tables. [S.l.: S.n.]. 
+
+NASA SCIENCE EARTH INDICATORS. Earth Indicators. NASA, 2026. Disponível em: <https://science.nasa.gov/earth/explore/earth-indicators/>  
+
+PEDERSEN, Thomas Lin. patchwork: The Composer of Plots. [S.l.: S.n.]. 
+
+R CORE TEAM. R: A Language and Environment for Statistical Computing. Vienna, Austria: R Foundation for Statistical Computing, 2026.  
+
+RAÍZEN. Etanol. Raízen, 2022. Disponível em: <https://www.raizen.com.br/blog/etanol>  
+
+RAM, Karthik; WICKHAM, Hadley. wesanderson: A Wes Anderson Palette Generator. [S.l.: S.n.]. 
+
+REN, Kun; RUSSELL, Kenton. formattable: Create ’Formattable’ Data Structures. [S.l.: S.n.]. 
+
+ROGÉRIO, Carvalho. PBEV — Programa Brasileiro de Etiquetagem Veicular. PETROBRAS-CENPES/CONPET, INEE, 2025. Disponível em: <https://inee.org.br/wp-content/uploads/2025/02/RogerioCarvalho_CENPES.pdf> 
+
+SUNNE. Saiba os impactos dos combustíveis fósseis. Sunne, 2024. Disponível em: <https://sunne.com.br/blog/saiba-os-impactos-dos-combustiveis-fosseis/> 
+
+TOTALENERGIES. Catalisador automotivo: o que é e como funciona. TotalEnergies, 2023. Disponível em: <https://totalenergies.com.br/catalisador-automotivo-o-que-e-e-como-funciona> 
+
+WICKHAM, Hadley et al. Welcome to the tidyverse. Journal of Open Source Software, v. 4, n. 43, p. 1686, 2019. 
+
+WILKE, Claus O. ggridges: Ridgeline Plots in ’ggplot2’. [S.l.: S.n.]. 
+
 :::
 
 ## {background-image="images/encerramento.jpg" background-size="cover" background-position="center"}
