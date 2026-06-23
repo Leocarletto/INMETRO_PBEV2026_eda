@@ -129,6 +129,11 @@ Na base analisada, as variáveis selecionadas para este estudo foram: Categoria,
 
 ## Resultados
 
+
+<details>
+<summary>Ver tabela de emissão por categoria</summary>
+
+
 ### Distribuição das emissões de CO2 por categoria
 
 Os gráficos abaixo têm como objetivo estudar a **frequência** das emissões de CO2 por categoria, separadamente para etanol e para gasolina/diesel.
@@ -278,6 +283,7 @@ girafe(
   )
 )
 ```
+</details>
 
 Observa-se que o rendimento do etanol **(entre cerca de 5,7 e 11,9 km/l)** é, de modo geral, inferior ao rendimento da gasolina/diesel **(entre cerca de 4,7 e 17,2 km/l)**: com etanol, percorre-se menos quilômetros por litro.
 
@@ -286,6 +292,7 @@ Nesse cenário de necessidade de renovação energética limpa no Brasil, o etan
 ### Emissão média anual de CO2 por categoria
 
 A tabela abaixo tem como objetivo **quantificar a emissão média anual de CO2** de cada categoria e o quanto, em média, seria evitado com o uso do etanol. **Todos os valores são médias por categoria.**
+
 
 ```{r, tabela gt}
 #| echo: false
@@ -355,6 +362,7 @@ emissao_anual |>
 ```
 
 A tabela confirma a leitura dos gráficos: em **todas as categorias com dados de etanol**, a emissão média do etanol é menor que a da gasolina/diesel, ou seja, o CO2 médio evitado é positivo. As maiores reduções aparecem nas categorias **Comercial** (cerca de 770 kg de CO2/ano), **Fora de Estrada Grande** (≈ 529) e **Picape** (≈ 517), enquanto as menores ocorrem em **Utilitário Esportivo Grande** (≈ 44) e **Médio** (≈ 67). E se consideramos, as emissões fósseis, que seriam um novo carbono que será introduzido na atmosfera, as diferenças são enormes.
+
 
 
 ```{=html}

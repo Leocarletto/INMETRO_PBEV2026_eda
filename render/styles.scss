@@ -1,8 +1,8 @@
 /*-- scss:defaults --*/
 // Fonts
-@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Inconsolata:wght@200..900&display=swap');
-$font-family-sans-serif:  "Crimson Text" !default;
-$font-family-serif:       "Crimson Text" !default;
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Inter:wght@400;500;600;700&family=Inconsolata:wght@200..900&display=swap');
+$font-family-sans-serif:  "Inter", "Helvetica Neue", Arial, sans-serif !default;
+$font-family-serif:       "Inter", "Helvetica Neue", Arial, sans-serif !default;
 $font-family-monospace:   "Inconsolata" !default;
 $font-size-base:          0.92rem !default;
 // Links
@@ -20,7 +20,7 @@ $link-hover-decoration: none;
 }
 // Typography
 h1.title {
-  font-family: "Crimson Text";
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
   font-size: 30px;
 }
 p.subtitle.lead {
@@ -32,7 +32,7 @@ p.subtitle.lead {
 }
 .navbar-title {
   color: #FFFFFF;
-  font-family: "Crimson Text";
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
 }
 a.sidebar-item-text.sidebar-link {
   color: #FFFFFF;
@@ -42,10 +42,10 @@ a.sidebar-item-text.sidebar-link {
 }
 // Listings
 .quarto-listing-category {
-  font-family: "Crimson Text";
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
 }
 .quarto-listing-category-title {
-  font-family: "Crimson Text";
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
 }
 // Code
 code {
@@ -67,7 +67,7 @@ img.banner {
 }
 .banner ~ figcaption,
 figure:has(img.banner) figcaption {
-  font-family: "Crimson Text", serif;
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
   font-size: 0.95rem;
   color: #6c757d;
   text-align: left;

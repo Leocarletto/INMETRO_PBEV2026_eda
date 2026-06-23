@@ -2,17 +2,17 @@
 // Tema derivado do relatório (styles.scss): Crimson Text, link laranja #E1955F,
 // código com fundo preto. SEM as decorações do deck antigo (barra nos títulos,
 // citação tingida, cartões de estatística).
-@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Inconsolata:wght@200..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Inter:wght@400;500;600;700&family=Inconsolata:wght@200..900&display=swap');
 
-$font-family-sans-serif: "Crimson Text", Georgia, serif !default;
-$font-family-serif:      "Crimson Text", Georgia, serif !default;
+$font-family-sans-serif: "Inter", "Helvetica Neue", Arial, sans-serif !default;
+$font-family-serif:      "Inter", "Helvetica Neue", Arial, sans-serif !default;
 $font-family-monospace:  "Inconsolata", monospace !default;
 
 $body-bg:    #ffffff !default;
 $body-color: #2B2423 !default;
 
 $presentation-font-size-root:    32px !default;
-$presentation-heading-font:      "Crimson Text", Georgia, serif !default;
+$presentation-heading-font:      "Inter", "Helvetica Neue", Arial, sans-serif !default;
 $presentation-heading-color:     #2B2423 !default;
 $presentation-heading-font-weight: 700 !default;
 
@@ -51,7 +51,7 @@ $link-color: #E1955F !default;
 .reveal .slide img.framed { border: 1px solid #ece6df; border-radius: 6px; }
 
 // Legendas (igual ao relatório: Crimson Text, cinza, itálico)
-.reveal figcaption { font-family: "Crimson Text", serif; font-size: 0.5em; color: #6c757d; font-style: italic; }
+.reveal figcaption { font-family: "Inter", "Helvetica Neue", Arial, sans-serif; font-size: 0.5em; color: #6c757d; font-style: italic; }
 
 .reveal table { font-size: 0.6em; }
 .refs { font-size: 0.46em; line-height: 1.35; color: #4a423d; }
